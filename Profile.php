@@ -1,5 +1,6 @@
 <?php
 /* Template Name: Profile */
+echo "Profile page test works";
 include 'futsal_db.php';
 session_start();
 $role = $_SESSION['role'] ?? null;
