@@ -315,7 +315,7 @@ function getReviews(){
 }
 function getAllCourtDetails() {
     global $conn;
-    $sql = "SELECT 
+    /*$sql = "SELECT 
 pitch.pitch_id as id, pitch.image_path as pitch_image, stadium.name as Stadium_name,stadium.address as Stadium_address,stadium.contact_info as Stadium_no,stadium.image_path as Stadium_image, court.court_type as Sport_type, pitch.pitch_name as Court_Name,pitch.opening_time as Opening_Time, pitch.closing_time as Closing_time, pricing.peak_rate as Peak_rate, pricing.offpeak_rate as Offpeak_rate, pricing.offpeak_start_time as offpeak_start, pricing.offpeak_end_time as Offpeak_end, pitch.Amenities as tagline,
 ROUND(AVG(r.rating), 1) AS average_rating,
     COUNT(r.review_id) AS review_count
@@ -324,7 +324,50 @@ JOIN court ON court.stadium_id = stadium.stadium_id
 JOIN pitch ON pitch.court_id = court.court_id 
 JOIN pricing ON pitch.pitch_id = pricing.pitch_id 
 left JOIN reviews as r On r.pitch_id = pitch.pitch_id
-GROUP by pitch.pitch_id ORDER BY average_rating DESC limit 5";
+GROUP by pitch.pitch_id ORDER BY average_rating DESC limit 5";*/
+
+	$sql="SELECT 
+  pitch.pitch_id as id, 
+  pitch.image_path as pitch_image, 
+  stadium.name as Stadium_name,
+  stadium.address as Stadium_address,
+  stadium.contact_info as Stadium_no,
+  stadium.image_path as Stadium_image, 
+  court.court_type as Sport_type, 
+  pitch.pitch_name as Court_Name,
+  pitch.opening_time as Opening_Time, 
+  pitch.closing_time as Closing_time, 
+  pricing.peak_rate as Peak_rate, 
+  pricing.offpeak_rate as Offpeak_rate, 
+  pricing.offpeak_start_time as offpeak_start, 
+  pricing.offpeak_end_time as Offpeak_end, 
+  pitch.Amenities as tagline,
+  ROUND(AVG(r.rating), 1) AS average_rating,
+  COUNT(r.review_id) AS review_count
+FROM stadium 
+JOIN court ON court.stadium_id = stadium.stadium_id 
+JOIN pitch ON pitch.court_id = court.court_id 
+JOIN pricing ON pitch.pitch_id = pricing.pitch_id 
+LEFT JOIN reviews as r ON r.pitch_id = pitch.pitch_id
+GROUP BY 
+  pitch.pitch_id,
+  pitch.image_path,
+  stadium.name,
+  stadium.address,
+  stadium.contact_info,
+  stadium.image_path,
+  court.court_type,
+  pitch.pitch_name,
+  pitch.opening_time,
+  pitch.closing_time,
+  pricing.peak_rate,
+  pricing.offpeak_rate,
+  pricing.offpeak_start_time,
+  pricing.offpeak_end_time,
+  pitch.Amenities
+ORDER BY average_rating DESC 
+LIMIT 5
+";
 
 
     $result = mysqli_query($conn, $sql);
