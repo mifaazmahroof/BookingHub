@@ -1012,16 +1012,15 @@ function saveUser($data, $conn) {
 
     $name = "{$fname} {$lname}";
     $address = "{$door}, {$street}, {$city}, {$district}, {$province}";
-    print_r($name);
-    var_dump($address);
+
     date_default_timezone_set('Asia/Colombo');
     $currentDateTime = date('Y-m-d H:i:s');
-    print_r($currentDateTime);
+
     $query = $conn->prepare("INSERT INTO customer (
         phone_number, full_name, email, address, NIC, password,
         first_name, last_name, city, created_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    var_dump($query);
+
     if (!$query) {
         echo json_encode(["message" => "Prepare failed: " . $conn->error, "status" => false]);
         return;
