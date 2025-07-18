@@ -8,7 +8,7 @@ $servername = "yamabiko.proxy.rlwy.net";
 $username = "root";
 $port ="13665";
 $password = "elJbKEDUyyGYKVVHqkrcKZNNynrFtGHw";
-$dbname = "gpedfqte_WP3RP";
+$dbname = "railway";
 
 // Create Database Connection
 $conn = new mysqli($servername, $username, $password, $dbname,$port);
