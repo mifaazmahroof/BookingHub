@@ -13,8 +13,45 @@ $provinces = getDistinctProvinces();
   </div>
 </div>
 
+<div id="newCityModal" class="hidden fixed inset-0 flex items-center justify-center z-50 bg-black/50">
+  <div class="bg-white p-6 rounded-md shadow-md w-96 relative">
+    <!-- Close button -->
+    <button id="close_login" class="absolute top-2 right-2 text-gray-600 hover:text-black" onclick="cancelSubmit()" type="button">&times;</button>
+    
+    <!-- Your login form or content -->
+    <h2 class="text-lg font-semibold mb-4">Add New City</h2>
+<div class="modal-body">
+        <div class="mb-3">
+          <label for="location_group" class="form-label">Select Location Group</label>
+          <select class="form-select" name="location_group" id="location_group" required onchange="selectPrDis()">
+            <option value="">-- Select Province - District --</option>
+            <?php
+              foreach ($location_details as $group => $cities) {
+                  echo "<option value=\"$group\">$group</option>";
+              }
+            ?>
+          </select>
+        </div>
+
+        <div class="mb-3">
+          <label for="new_city_name" class="form-label">City Name</label>
+          <input type="text" class="form-control" id="new_city_name" placeholder="Enter City Name" required disabled>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="cancelSubmit()">Cancel</button>
+        <button type="button" class="btn btn-primary" onclick="submitNewCity()" id="addNewCity">Add City</button>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
   <!-- Add New City Modal -->
-<div class="modal fade" style="display: none" id="newCityModal" tabindex="-1" aria-labelledby="newCityModalLabel" aria-hidden="true">
+<!-- <div class="modal fade" style="display: none" id="newCityModal" tabindex="-1" aria-labelledby="newCityModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -22,17 +59,17 @@ $provinces = getDistinctProvinces();
         <button type="button" onclick="cancelSubmit()" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-<div class="mb-3">
-  <label for="location_group" class="form-label">Select Location Group</label>
-  <select class="form-select" name="location_group" id="location_group" required onchange="selectPrDis()">
-    <option value="">-- Select Province - District --</option>
-    <?php
-      foreach ($location_details as $group => $cities) {
-          echo "<option value=\"$group\">$group</option>";
-      }
-    ?>
-  </select>
-</div>
+        <div class="mb-3">
+          <label for="location_group" class="form-label">Select Location Group</label>
+          <select class="form-select" name="location_group" id="location_group" required onchange="selectPrDis()">
+            <option value="">-- Select Province - District --</option>
+            <?php
+              foreach ($location_details as $group => $cities) {
+                  echo "<option value=\"$group\">$group</option>";
+              }
+            ?>
+          </select>
+        </div>
 
         <div class="mb-3">
           <label for="new_city_name" class="form-label">City Name</label>
@@ -45,9 +82,9 @@ $provinces = getDistinctProvinces();
       </div>
     </div>
   </div>
-</div>
+</div> -->
 <!-- Registration Form -->
-<div class="container my-5">
+<div class="">
   <div class="card mx-auto shadow p-4" style="max-width: 600px;">
     <h3 class="text-center mb-4">Indoor Facility Registration</h3>
     <form id="registerForm">
@@ -308,16 +345,16 @@ document.getElementById("city").dispatchEvent(new Event('change'));
 </script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<!-- Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<!-/- Select2 CSS -/->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> -->
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
 <!-- Select2 JS -->
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
-<script src="asset/js/register.js"></script> <!-- Updated JS -->
+<script src="js/register.js"></script> <!-- Updated JS -->
 
-<link rel="stylesheet" href="asset/css/style_book.css"> <!-- Optional CSS -->
+<link rel="stylesheet" href="css/style_book.css"> <!-- Optional CSS -->
 <?php include 'footer.php'; // Include WordPress footer ?>

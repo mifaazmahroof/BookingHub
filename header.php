@@ -23,7 +23,7 @@ $root = ROOT_URL;
 
 ?>
 <!doctype html>
-<html>
+<html lang="en" x-data="tabHandler()" xmlns="http://www.w3.org/1999/xhtml">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Futsal Sri Lanka - Book Your Ground</title>
@@ -33,7 +33,7 @@ $root = ROOT_URL;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 
     <link href="./css/output.css" rel="stylesheet">
-    
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
     
 </head>
 <body>

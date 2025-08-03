@@ -51,7 +51,7 @@ try {
     if (result.query) console.log("SQL Debug:", result.query);
   }
 } catch (err) {
-  alert(`Something went wrong: ${err.message}`);
+  alert(`Something went wrong with db: ${err.message}`);
 }
 
   });
@@ -98,8 +98,10 @@ reg_phone.addEventListener("input", function () {
     });
   document.getElementById('register_form').addEventListener('submit', async function (e) {
       e.preventDefault();
-
-      const formData = {
+  //const form = this;
+  const responseDiv = document.getElementById("response");
+  responseDiv.innerText = "Submitting..."; // Optional: loading indicator
+     /*  const formData = {
         fname: fname.value,
         lname: lname.value,
         door: door.value,
@@ -111,21 +113,99 @@ reg_phone.addEventListener("input", function () {
         city: cityInput.value,
         district: districtDropdown.value,
         province: provinceDropdown.value
-      };
-console.log(JSON.stringify(formData));
-      try {
+      }; */
+try{
+const formData = new FormData();
+formData.append('fname', fname.value);
+formData.append('lname', lname.value);
+formData.append('door', door.value);
+formData.append('street', street.value);
+formData.append('phone', phone.value);
+formData.append('password', password.value);
+formData.append('nic', nic.value);
+formData.append('email', email.value);
+formData.append('city', cityInput.value);
+formData.append('district', districtDropdown.value);
+formData.append('province', provinceDropdown.value);
+
+console.log(formData);
+  const res = await fetch('/futsal_db.php?action=saveUser', {
+  method: 'POST',
+  body: formData,
+});
+ const db_result = await res.json()
+    console.log("Convert Res: ",db_result.message);
+    if (db_result.status){
+        responseDiv.innerText = "Generating Email.....";
+    const response = await fetch("register_user.php", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Server error: ${response.status}`);
+    }
+
+    const result = await response.text();
+    responseDiv.innerText = result;
+     alert(`Database response: ${result}`);
+    window.location.href = './profile.php';
+    }
+    else{
+    
+    responseDiv.innerText = `Database response: ${db_result.message}`;
+    alert(`Database response: ${db_result.message}`);
+    location.reload();
+
+    }
+
+}
+catch (error) {
+    console.error("Submission failed:", error);
+    responseDiv.innerText = "An error occurred during submission. Please try again.";
+  }
+
+/* const res = await fetch('/futsal_db.php?pushaction=saveUser', {
+  method: 'POST',
+  body: JSON.stringify(formData)
+});
+
+const text = await res.text();
+console.log("Raw response:", text);
+
+try {
+  result = JSON.parse(text);
+  console.log("Parsed JSON:", result);
+} catch (error) {
+  console.error("Server returned non-JSON or empty response:", error);
+}
+ */
+
+
+
+
+      /* try {
   const res = await fetch('/futsal_db.php?pushaction=saveUser', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData)
   });
-
-  const result = await res.json();
-  alert(`Save user: ${result.message}`);
+const text = await res.text();
+console.log(text);
+try {
+  result = JSON.parse(text);
+  console.log(result);
+} catch (e) {
+  console.error("Server returned non-JSON or empty response:", text,e);
+  throw new Error("Invalid JSON response");
+}
+  /-* const result = await res.json();
+  console.log(`Save user: ${result.message}`);
+  alert(`Save user: ${result.message}`); *-/
 } catch (error) {
   console.error("Error parsing JSON:", error);
-  alert("Unexpected server response.");
-}
+  alert(`Unexpected server response. from save file\n${error}`);
+} */
     });
       
  /* reg_btn.addEventListener("click", function () {

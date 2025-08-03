@@ -14,7 +14,32 @@ $role = $_SESSION['role'] ?? null;
                 
                 <!-- Search Bar -->
                 <div class="bg-white p-6 rounded-xl shadow-2xl">
-                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                     <!-- Tabs -->
+    <div class="flex space-x-1 rounded-t-lg px-2 pt-2">
+      <div
+       @click="selectTab('compare')"
+        //@click="tab = 'compare'"
+        :class="tab === 'compare' 
+          ? 'bg-white text-blue-600 font-semibold border border-b-0 z-10 rounded-t-3xl' 
+          : 'bg-gray-300 text-gray-600'"
+        class="cursor-pointer px-6 py-2 text-sm rounded-t-md transition duration-200 mg-2 mr-2"
+      >
+        Compare
+      </div>
+      <div
+      @click="selectTab('futsal')"
+        //@click="tab = 'futsal'"
+        :class="tab === 'futsal' 
+          ? 'bg-white text-blue-600 font-semibold border border-b-0 z-10 rounded-t-3xl' 
+          : 'bg-gray-300 text-gray-600'"
+        class="cursor-pointer px-6 py-2 text-sm rounded-t-md transition duration-200"
+      >
+        By Futsal Name
+      </div>
+    </div>
+    <div class="border-t-0 border border-gray-300 bg-white p-6 rounded-b-lg -mt-1">
+      <div x-show="tab === 'compare'" x-transition>
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
                         <div class="flex-1">
                             <label class="block text-gray-700 text-sm font-bold mb-2 text-left">Sport Type</label>
                             <div class="relative">
@@ -51,6 +76,52 @@ $role = $_SESSION['role'] ?? null;
                         
 						
                     </div>
+      </div>
+
+      <div x-show="tab === 'futsal'" x-transition>
+        <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+                        
+						<div class="flex-1">
+                            <label class="block text-gray-700 text-sm font-bold mb-2 text-left">Futsal Name</label>
+                            <div class="relative">
+                                <input type="text" class="form-control" id="futsalName" name="futs">
+                                 <div id="stadiumSuggestions"
+       class="absolute top-full left-0 z-10 w-full bg-white border rounded mt-1 hidden max-h-40 overflow-y-auto shadow-md">
+  </div>
+                            </div>
+                            
+                        </div>
+                        <input type="hidden" id="selectedStadium">
+                       
+                        <div class="flex-1">
+                            <label class="block text-gray-700 text-sm font-bold mb-2 text-left">Sport Type</label>
+                            <div class="relative">
+                                <select id="courtsListByname" class="form-control">
+                            <option value="">-- Select Sport --</option>
+                            
+                            </select>
+                                <!-- <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <i class="fas fa-chevron-down"></i>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="flex-1">
+                            <label class="block text-gray-700 text-sm font-bold mb-2 text-left">Date</label>
+                            <div class="relative">
+                                <input type="date" class="form-control" id="dateByName" name="date" min="<?php echo date('Y-m-d'); ?>" disabled>
+                                <!-- <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                                    <!-/- <i class="fas fa-calendar-day"></i> -/->
+                                </div> -->
+                            </div>
+                        </div>
+                        
+                        
+						
+                    </div>
+      </div>
+    </div>
+                    
+                    
 					
                     <div class="border-t border-gray-200 pt-4 mb-6" id="cost_lst" style="display: none;">
                         <p id="ttcost" class="fw-bold text-primary pt-3 text-[1.5rem]"></p>
@@ -81,10 +152,7 @@ $role = $_SESSION['role'] ?? null;
                     
                     <div id="futsalsList" class="scrollable-div" style="display: none;">
                         
-<table id="compareTable">
-  <thead></thead>
-  <tbody id="tableBody"></tbody>
-</table>
+
 
                     </div>
                           <!-- Hidden Inputs -->
@@ -312,7 +380,9 @@ $role = $_SESSION['role'] ?? null;
         <button type="submit" class="w-2/5 px-3 py-2 rounded-2xl bg-teal-300 hover:bg-teal-700 hover:text-white disabled:bg-gray-500 disabled:text-black" id="reg_submit">Submit</button>
       </div>
     </form>
+    <div id="response"></div>
   </div>
+
 </div>
 
 
@@ -673,6 +743,7 @@ else{
 <script>
     const cityInput = document.getElementById('reg_city');
     const suggestionsBox = document.getElementById('citySuggestions');
+        const stadiumsuggestionsBox = document.getElementById('stadiumSuggestions');
     const districtDropdown = document.getElementById('reg_district');
     const provinceDropdown = document.getElementById('reg_province');
     const fname = document.getElementById("reg_fname");
@@ -683,6 +754,98 @@ else{
     const password = document.getElementById("reg_pass");
     const nic = document.getElementById("reg_nic");
     const email = document.getElementById("reg_email");
+    const futsalName = document.getElementById("futsalName");
+
+futsalName.addEventListener('input', async function () {
+  const query = futsalName.value;
+  console.log(query);
+
+  if (query.length >= 3) {
+    try {
+      const response = await fetch(`futsal_db.php?action=getfutsals&query=${encodeURIComponent(query)}`);
+
+      // Try getting raw text first for debugging if needed
+      // const text = await response.text(); console.log(text);
+
+      const data = await response.json(); // Ensure this is valid JSON
+
+      stadiumsuggestionsBox.innerHTML = ''; // Clear old suggestions
+      stadiumsuggestionsBox.classList.remove('hidden');
+        
+      if (data.length > 0) {
+        data.forEach(item => {
+          const div = document.createElement('div');
+          div.classList.add('autocomplete-suggestion');
+          div.textContent = item.stadium_name;
+          div.addEventListener('click', () => {
+document.getElementById("cost_lst").style.display = 'none';
+document.getElementById("futsalsList").style.display = 'none';
+            stadiumsuggestionsBox.classList.add('hidden');
+            stadiumsuggestionsBox.innerHTML = '';
+            const courttypeContainer = document.getElementById('courtsListByname');
+
+
+
+
+            futsalName.value = item.stadium_name;
+            selectedCourt = item.court_names;
+            document.getElementById('selectedStadium').value = item.stadium_location;
+
+if (selectedCourt) {
+
+courttypeContainer.innerHTML = "";
+            const defaultOption = document.createElement("option");
+            defaultOption.textContent = "-- Select Sport --";
+            defaultOption.value = "";
+            courttypeContainer.appendChild(defaultOption);
+            selectedCourt.forEach(court => {
+                const locOption = document.createElement("option");
+                locOption.value = court;
+                locOption.textContent = court;
+                courttypeContainer.appendChild(locOption);
+
+            });
+            
+        } else {
+            console.error('court container not found');
+        }
+
+
+
+
+
+            document.getElementById('date').disabled = false;
+
+            stadiumsuggestionsBox.classList.add('hidden'); // hide after selection
+          });
+
+          stadiumsuggestionsBox.appendChild(div); // 🔹 Append to box
+        });
+      } else {
+        stadiumsuggestionsBox.innerHTML = '<div class="autocomplete-suggestion">No matches found</div>';
+      }
+
+    } catch (err) {
+      console.error("Fetch error or invalid JSON:", err);
+    }
+  } else {
+    stadiumsuggestionsBox.classList.add('hidden');
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     cityInput.addEventListener('input', async function () {
       const query = cityInput.value;
@@ -799,11 +962,27 @@ districtDropdown.addEventListener('change', async function () {
   function submitForm(val) {
     document.getElementById('valueInput').value = val;
         // Optional: console log for debugging
-    console.log("Submitting value:", val);
     document.getElementById('redirectForm').submit();
   }
 </script>
 
+  <script>
+    function tabHandler() {
+      return {
+        tab: 'compare',
+        selectTab(tabName) {
+          this.tab = tabName;
+          
+          //document.getElementById('cost_lst').style.display = "none";
+            const select = document.getElementById('courtsList');
+    select.value = '';                      // ✅ Set value
+    select.dispatchEvent(new Event('change')); // ✅ Trigger change event
+          
+          //alert(`Selected tab: ${tabName}`);
+        }
+      }
+    }
+  </script>
 <script src="js/script.js"></script>
 <script src="js/script_login.js"></script>
 

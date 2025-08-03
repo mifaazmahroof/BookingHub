@@ -110,10 +110,15 @@ switch ($action) {
     case 'getcities':
         getcities($conn,$_GET['query']);
         break;
+    case 'getfutsals':
+        getfutsals($conn,$_GET['query']);
+        break;
     case 'getDistinctDistricts':
         getDistinctDistricts($conn);
         break;
-		
+    case 'getLocationHierarchy':
+        getLocationHierarchy($conn);
+        break;		
 
     case 'getDistinctProvince':
         getDistinctProvince($conn, $_GET['district']);
@@ -410,6 +415,52 @@ function getCities($conn, $query) {
 
     echo json_encode($cities);
 }
+
+
+
+function getfutsals($conn, $query) {
+    $stmt = $conn->prepare("SELECT * FROM stadium WHERE name LIKE CONCAT(?, '%')");
+
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $stmt->bind_param("s", $query);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $data = [];
+
+    while ($stadium = $result->fetch_assoc()) {
+        $stadium_id = $stadium['stadium_id'];
+        $court_stmt = $conn->prepare("SELECT DISTINCT court_type FROM court WHERE stadium_id = ?");
+        
+        if (!$court_stmt) {
+            die("Court Prepare failed: " . $conn->error);
+        }
+
+        $court_stmt->bind_param("i", $stadium_id);
+        $court_stmt->execute();
+        $court_result = $court_stmt->get_result();
+
+        $court_names = [];
+        while ($court = $court_result->fetch_assoc()) {
+            $court_names[] = $court['court_type'];
+        }
+
+        $data[] = [
+            'stadium_name' => $stadium['name'],
+            'stadium_location' => $stadium['location'],
+            'court_names' => $court_names
+        ];
+
+        
+    }
+
+    
+    echo json_encode($data);
+}
+
 
 
 
@@ -734,6 +785,42 @@ $sql_d ="SELECT DISTINCT district FROM location";
  echo json_encode($data);
 }
 
+
+
+
+function getLocationHierarchy($conn) {
+
+    $query = "SELECT province, district, city FROM location ORDER BY province, district, city";
+    $result = $conn->query($query);
+
+    if (!$result) {
+        return json_encode(["status" => false, "message" => $conn->error]);
+    }
+
+    $locations = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $province = $row['province'];
+        $district = $row['district'];
+        $city = $row['city'];
+
+        if (!isset($locations[$province])) {
+            $locations[$province] = [];
+        }
+
+        if (!isset($locations[$province][$district])) {
+            $locations[$province][$district] = [];
+        }
+
+        if (!in_array($city, $locations[$province][$district])) {
+            $locations[$province][$district][] = $city;
+        }
+    }
+
+    echo json_encode($locations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+}
+
+
 function getDistinctProvinces() {
 	global $conn;
     $sql_d = "SELECT DISTINCT province FROM location";
@@ -996,8 +1083,8 @@ function calculateCost($data, $conn) {
 
 
 
-function saveUser($data, $conn) {
-
+/* function saveUser($data, $conn) {
+header('Content-Type: application/json');
     $fname = $data['fname'] ?? '';
     $lname = $data['lname'] ?? '';
     $door = $data['door'] ?? '';
@@ -1012,19 +1099,18 @@ function saveUser($data, $conn) {
 
     $name = "{$fname} {$lname}";
     $address = "{$door}, {$street}, {$city}, {$district}, {$province}";
-    print_r($name);
-    var_dump($address);
+
     date_default_timezone_set('Asia/Colombo');
     $currentDateTime = date('Y-m-d H:i:s');
-    print_r($currentDateTime);
+
     $query = $conn->prepare("INSERT INTO customer (
         phone_number, full_name, email, address, NIC, password,
         first_name, last_name, city, created_at
     ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-    var_dump($query);
+
     if (!$query) {
         echo json_encode(["message" => "Prepare failed: " . $conn->error, "status" => false]);
-        return;
+        exit;
     }
 
     $query->bind_param(
@@ -1034,10 +1120,67 @@ function saveUser($data, $conn) {
 
     if ($query->execute()) {
         $cus_id = $conn->insert_id;
-        print_r($cus_id);
         echo json_encode(["message" => "User registered successfully!", "cus_id" => $cus_id, "status" => true]);
+        exit;
     } else {
         echo json_encode(["message" => "Error registering user: " . $query->error, "status" => false]);
+        exit;
+    }
+} */
+function saveUser($data, $conn) {
+	session_start();
+    header('Content-Type: application/json');
+
+    $fname = $data['fname'];
+    $lname = $data['lname'];
+    $door = $data['door'];
+    $street = $data['street'];
+    $phone = $data['phone'];
+    $password = password_hash($data['password'], PASSWORD_DEFAULT); // hashed
+    $nic = $data['nic'];
+    $email = $data['email'];
+    $city = $data['city'];
+    $district = $data['district'];
+    $province = $data['province'];
+
+    $name = "{$fname} {$lname}";
+    $address = "{$door}, {$street}, {$city}, {$district}, {$province}";
+
+    date_default_timezone_set('Asia/Colombo');
+    $currentDateTime = date('Y-m-d H:i:s');
+
+    $query = $conn->prepare("INSERT INTO customer (
+        phone_number, full_name, email, address, NIC, password,
+        first_name, last_name, city, created_at
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+    
+	if (!$query) {
+        echo json_encode([
+            "message" => "Prepare failed: " . $conn->error,
+            "status" => false
+        ]);
+        exit; // ❗ Stop execution if prepare failed
+    }
+
+    $query->bind_param(
+        "ssssssssss", 
+        $phone, $name, $email, $address, $nic, $password, $fname, $lname, $city, $currentDateTime
+    );
+
+    if ($query->execute()) {
+        $cus_id = $conn->insert_id;
+		$_SESSION['user_id'] = $cus_id;
+        $_SESSION['role'] = 'customer';
+        echo json_encode([
+            "message" => "User registered successfully!",
+            "cus_id" => $_SESSION['user_id'],
+            "status" => true
+        ]);
+    } else {
+        echo json_encode([
+            "message" => "Error registering user: " . $query->error,
+            "status" => false
+        ]);
     }
 }
 
@@ -1568,7 +1711,7 @@ function savePitchImage($pitchId, $imagePath) {
 }
 
 function update_user($formData, $conn) {
-    $upload_folder = __DIR__ . 'uploads/';
+    $upload_folder = __DIR__ . '/uploads/';
     $upload_url_base = 'uploads/';
 
     // Sanitize user input
@@ -2098,7 +2241,7 @@ $result = mysqli_query($conn, $sql);
 
 
 function create_pitch($data,$conn) {
-    $upload_folder = __DIR__  . 'uploads/';
+    $upload_folder = __DIR__  . '/uploads/';
     $upload_url_base = 'uploads/';
     $pitch_name     = $data['pitch_name'];
     $opening_time   = $data['opening_time'];
@@ -2271,7 +2414,7 @@ if (file_put_contents($server_path, $imageBase64)) {
 
 
 function update_pitch($data, $conn) {
-    $upload_folder = __DIR__ . 'uploads/';
+    $upload_folder = __DIR__ . '/uploads/';
     $upload_url_base = 'uploads/';
     
     $pitch_id = $conn->real_escape_string($data['pitch_id']);

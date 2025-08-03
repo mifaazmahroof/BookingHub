@@ -1,10 +1,11 @@
 $(document).ready(function () {
+    
     let selectedDate = null;
     let selectedLocation = null;
+    let selectedCourt = null;
     let selectedFutsal = null;
     let selectedSlot = null;
     let selectedSlotArray = []
-    let selectedCourt = null;
     const phoneInput = document.getElementById("phone");
     let booking_ids = []
     let totPayment = 0;
@@ -88,7 +89,7 @@ getLocation()
         
         if (courtsContainer) {
 
-if (courtTypes.length === 1) {
+/* if (courtTypes.length === 1) {
     const court = courtTypes[0];
     courtsContainer.innerHTML = `<option value="${court}">${court}</option>`;
     courtsContainer.selectedIndex = 0;
@@ -109,8 +110,20 @@ else{
                 courtsContainer.appendChild(locOption);
 
             });
-        }
+        } */
 
+courtsContainer.innerHTML = "";
+            const defaultOption = document.createElement("option");
+            defaultOption.textContent = "--Select Sport--";
+            defaultOption.value = "";
+            courtsContainer.appendChild(defaultOption);
+            courtTypes.forEach(court => {
+                const locOption = document.createElement("option");
+                locOption.value = court;
+                locOption.textContent = court;
+                courtsContainer.appendChild(locOption);
+
+            });
             
         } else {
             console.error('court container not found');
@@ -121,10 +134,14 @@ else{
 
     fetchCourts()
 
+
+
+
     function getLocByCourt(sport_type) {
         document.getElementById("cost_lst").style.display = 'none';
         document.querySelector(".scrollable-div").style.display = "none";
-        fetch(`/futsal_db.php?action=getLocByCourt&court_type=${sport_type}`)
+        if (sport_type){
+fetch(`/futsal_db.php?action=getLocByCourt&court_type=${sport_type}`)
     .then(response => response.text())  // Read as text first
     .then(text => {
         if (!text) {
@@ -138,7 +155,7 @@ else{
         }
         const locationsContainer = document.getElementById("locationsList");
         if (locationsContainer) {
-            if (locations.length == 1){
+            /* if (locations.length == 1){
                 const location = locations[0];                
             locationsContainer.innerHTML = `<option value="${location}">${location}</option>`;
  getCourtDetails(location, selectedCourt);
@@ -155,7 +172,18 @@ else{
                 locOption.textContent = location;
                 locationsContainer.appendChild(locOption);
             });
-        }
+        } */
+         locationsContainer.innerHTML = "";
+            const defaultOption = document.createElement("option");
+            defaultOption.textContent = "--Select Location--";
+            defaultOption.value = "";
+            locationsContainer.appendChild(defaultOption);
+            locations.forEach(location => {
+                const locOption = document.createElement("option");
+                locOption.value = location;
+                locOption.textContent = location;
+                locationsContainer.appendChild(locOption);
+            });
         } else {
             console.error('Locations container not found');
         }
@@ -163,8 +191,48 @@ else{
 
     })
     .catch(error => console.error('Error fetching locations:', error));
+
+        }
     }
 
+
+if (document.getElementById("courtsListByname")){
+    const selectCourt = document.getElementById("courtsListByname");
+    selectCourt.addEventListener("change", function () {
+        selectedLocation = document.getElementById('selectedStadium')?.value;
+        const today = new Date();
+        document.getElementById("dateByName").disabled = false;
+const year = today.getFullYear();
+const month = String(today.getMonth() + 1).padStart(2, '0');
+const day = String(today.getDate()).padStart(2, '0');
+
+document.getElementById("dateByName").value = `${year}-${month}-${day}`;
+        //document.getElementById("date").value = today.toISOString().split('T')[0];
+        selectedDate = today
+        selectedCourt = this.value
+        getCourtDetails(selectedLocation,selectedCourt);
+         
+    });
+}
+if (document.getElementById("dateByName")){
+    
+    document.getElementById("dateByName").addEventListener("change", function () {
+        selectedDate = new Date(this.value);
+        selectedLocation = document.getElementById('selectedStadium')?.value;
+        
+        // Alert with both selected date and location
+        //alert(`Location selected: ${selectedLocation}\nCourt selected: ${selectCourt}`);
+        if (selectedLocation) {
+            
+            //document.getElementById("ttcost").textContent = "";
+            getCourtDetails(selectedLocation,selectedCourt);
+            document.getElementById("cost_lst").style.display = 'none';
+            //document.querySelector(".submit-form button").style.display = "none";
+        }
+        
+        document.getElementById("locationsList").disabled = false;
+    });
+}
 
 
 
@@ -197,10 +265,11 @@ if (document.getElementById("date")){
     document.getElementById("date").addEventListener("change", function () {
         selectedDate = new Date(this.value);
         selectedLocation = document.getElementById("locationsList")?.value;
-
+        
         // Alert with both selected date and location
         //alert(`Location selected: ${selectedLocation}\nCourt selected: ${selectCourt}`);
         if (selectedLocation) {
+            
             //document.getElementById("ttcost").textContent = "";
             getCourtDetails(selectedLocation,selectedCourt);
             document.getElementById("cost_lst").style.display = 'none';
@@ -396,6 +465,7 @@ document.getElementById('bankDetails').appendChild(nameSpan);
 
    
     function getCourtDetails(location,court_type) {
+
         fetch(`/futsal_db.php?action=getCourtDetails&location=${location}&court=${court_type}`)
         .then(response => response.json())
         .then(courtDetails => {
@@ -727,7 +797,7 @@ const theadRow = document.createElement("tr");
 
             document.getElementById("cost_lst").style.display = "none";
             document.getElementById("futsalsList").style.display = 'none';
-            alert("No courts available at this time\nSelect another day");
+            alert("No courts available at this time\nSelect another day, Current selected date:",selectedDate);
             datediv.focus();
             
            

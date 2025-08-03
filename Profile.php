@@ -1,6 +1,5 @@
 <?php
 /* Template Name: Profile */
-echo "Profile page test works";
 include 'futsal_db.php';
 session_start();
 $role = $_SESSION['role'] ?? null;
@@ -13,12 +12,13 @@ if (!$role) {
 }
 if ($role === "customer" && $user_id) {
     $user = getCustomerDetails($user_id); // Assumes function exists and returns full name
-	$full_name = $user['full_name'];
+    $full_name = $user['full_name'];
 }
 
 if ($role === "client" && $user_id) {
     $user = getClientName($user_id); // Changed from $client_id to $user_id assuming same session key
-	$full_name = $user['name'];
+	echo $user;
+    $full_name = $user['name'];
 }
 
 switch ($role) {
