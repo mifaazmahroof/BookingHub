@@ -16,6 +16,9 @@ $default_city = $client_details['location'];
 define('ROOT_URL',  'http://'.$_SERVER['HTTP_HOST'] . '/');
 $root = ROOT_URL;
 ?>
+<div id="loader">
+  <div class="spinner"></div>
+</div>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -27,7 +30,7 @@ $root = ROOT_URL;
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css" />
-    <style>
+    <!-- <style>
       .profile-container {
       position: relative;
       width: 150px;
@@ -160,16 +163,16 @@ $root = ROOT_URL;
 
 
 
-    </style>
+    </style> -->
     
 </head>
 <body class="bg-gray-50">
     <div class="flex h-screen overflow-hidden">
         <!-- Mobile Sidebar Overlay -->
-        <div class="flex-1 overflow-y-hidden inset-0 bg-black/50 z-40 md:hidden hidden" id="mobileOverlay"></div>
+       <!--  <div class="flex-1 overflow-y-hidden inset-0 bg-black/50 z-40 md:hidden hidden" id="mobileOverlay"></div> -->
         
         <!-- Sidebar - Desktop -->
-        <aside class="flex flex-col h-screen w-64 bg-white shadow-md z-50">
+        <aside class="hidden md:flex flex-col h-screen w-64 bg-white shadow-md z-50">
             <div class="p-4 border-b border-gray-200">
                 <div class="text-2xl font-bold text-teal-600 flex items-center">
                     <a href="./logout.php" class="no-underline text-teal-700 hover:text-teal-900 flex items-center">
@@ -234,26 +237,27 @@ $root = ROOT_URL;
         </aside>
         
         <!-- Sidebar - Mobile -->
-        <aside class="mobile-menu flex flex-col h-screen w-64 bg-white shadow-md z-50 md:hidden" id="mobileMenu">
+        <aside class="mobile-menu flex flex-col h-screen w-64 bg-white shadow-md z-50 md:hidden hidden" id="mobileMenu">
             <div class="p-4 border-b border-gray-200">
                 <div class="text-2xl font-bold text-teal-600 flex items-center">
-                    <i class="fas fa-futbol mr-2"></i>
-                    <span>FutsalSL</span>
+                    <a href="/" class="no-underline text-teal-700 hover:text-teal-900 flex items-center">
+                        <i class="fas fa-futbol mr-2"></i>
+                    <span>FutsalSL</span></a>
                 </div>
                 <div class="text-sm text-gray-600">Vendor Dashboard</div>
             </div>
             <nav class="flex-1 overflow-y-auto no-scrollbar md:p-1 p-2 ">
              <div class="mb-4 bg-white rounded-xl shadow p-3">
                     <div class="text-xs uppercase font-semibold text-gray-500 tracking-wide mb-2">Management</div>
-                    <a href="#dashboard" class="sidebar-link active flex items-center py-3 px-4 rounded-lg mb-2 transition-all text-gray-700 hover:bg-gray-100 no-underline">
+                    <a href="#dashboard_main" class="sidebar-link active flex items-center py-3 px-4 rounded-lg mb-2 transition-all text-gray-700 hover:bg-gray-100 no-underline">
                         <i class="fas fa-tachometer-alt w-5 mr-3"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="#grounds" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#grounds_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-futbol w-5 mr-3"></i>
                         <span>My Grounds</span>
                     </a>
-                    <a href="#bookings" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#bookings_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-calendar-alt w-5 mr-3"></i>
                         <span>Bookings</span>
                     </a>
@@ -264,15 +268,15 @@ $root = ROOT_URL;
                 </div>
                 <div class="mb-4 bg-white rounded-xl shadow p-3">
                     <div class="text-xs uppercase font-semibold text-gray-500 tracking-wide mb-2">Finance</div>
-                    <a href="#earnings" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#earnings_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-money-bill-wave w-5 mr-3"></i>
                         <span>Earnings</span>
                     </a>
-                    <a href="#commissions" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#commissions_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-percentage w-5 mr-3"></i>
                         <span>Commissions</span>
                     </a>
-                    <a href="#payout_history" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#payout_history_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-file-invoice w-5 mr-3"></i>
                         <span>Payout History</span>
                     </a>
@@ -287,7 +291,7 @@ $root = ROOT_URL;
                         <i class="fas fa-cog w-5 mr-3"></i>
                         <span>Settings</span>
                     </a>
-                    <a href="#help" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#help_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-question-circle w-5 mr-3"></i>
                         <span>Help</span>
                     </a>
@@ -301,18 +305,15 @@ $root = ROOT_URL;
             <!-- Top Navigation -->
             <header class="bg-white shadow-sm z-10">
                 <div class="flex items-center justify-between p-4">
-                    <div class="flex items-center">
+                  <button id="menuToggle" class="md:hidden p-4 focus:outline-none">
+    <span id="menuIcon" class="fas fa-bars text-2xl text-teal-700"></span>
+</button>
+                    <div class="flex-1 items-center">
                         
-                        <h1 class="text-xl font-semibold" id="name_side_bar">Dashboard</h1>
+                        <h1 class="text-xl font-semibold uppercase " id="name_side_bar">Dashboard</h1>
                     </div>
                     <div class="flex items-center space-x-4">
-                       <!--  <button class="relative p-2 text-gray-600 hover:text-teal-600">
-                            <i class="far fa-bell text-xl"></i>
-                            <span class="absolute top-0 right-0 bg-red-500 text-white rounded-full h-5 w-5 flex items-center justify-center text-xs">3</span>
-                        </button> -->
-<!--                         <button id="logout_btn" class="relative p-2 text-gray-600 hover:text-teal-600">
-                            <i class="fas fa-sign-out-alt text-xl"></i>
-                        </button> -->
+                       
 <div class="border-zinc-200 dark:border-zinc-800">
     <div x-data="{ open: false }" class="relative rounded group/item">
       <button @click="open = !open" class="flex items-center justify-between w-full px-2 py-2">
@@ -1365,6 +1366,24 @@ else{
 
   </div>
 </div>
+<script>
+    const menuToggle = document.getElementById('menuToggle');
+    const mobileMenu = document.getElementById('mobileMenu');
+const menuIcon = document.getElementById('menuIcon');
+    function toggleMobileMenu() {
+        mobileMenu.classList.toggle('hidden');
+        
+    if (mobileMenu.classList.contains('hidden')) {
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
+    } else {        
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-times');
+    }
+    }
+
+    menuToggle.addEventListener('click', toggleMobileMenu);
+</script>
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 

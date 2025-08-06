@@ -20,6 +20,9 @@ $cus_details = getCustomerDetails($cus_id);
      <link href="./css/output.css" rel="stylesheet">
     <!-- <script src="https://cdn.tailwindcss.com"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+    <!-- Font Awesome CDN (v5 or v6, depending on your version) -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
 
     <!-- <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
@@ -134,7 +137,7 @@ $cus_details = getCustomerDetails($cus_id);
         </aside>
         
         <!-- Sidebar - Mobile -->
-        <aside class="mobile-menu flex flex-col h-screen w-64 bg-white shadow-md z-50 md:hidden" id="mobileMenu">
+        <aside class="mobile-menu flex flex-col h-screen w-64 bg-white shadow-md z-50 md:hidden hidden" id="mobileMenu">
             <div class="p-4 border-b border-gray-200">
                 <div class="text-2xl font-bold text-teal-600 flex items-center">
                     <a href="/" class="no-underline text-teal-700 hover:text-teal-900 flex items-center">
@@ -203,9 +206,9 @@ $cus_details = getCustomerDetails($cus_id);
                 
                 <div class="flex items-center justify-between p-4">
                     <button id="menuToggle" class="md:hidden p-4 focus:outline-none">
-    <i class="fas fa-bars text-2xl text-teal-700"></i>
+    <span id="menuIcon" class="fas fa-bars text-2xl text-teal-700"></span>
 </button>
-                    <div class="flex items-center">
+                    <div class="flex-1 items-center">
                         
                         <h1 class="text-xl font-semibold" id="name_side_bar">Dashboard</h1>
                     </div>
@@ -430,9 +433,17 @@ else{
 <script>
     const menuToggle = document.getElementById('menuToggle');
     const mobileMenu = document.getElementById('mobileMenu');
-
+const menuIcon = document.getElementById('menuIcon');
     function toggleMobileMenu() {
         mobileMenu.classList.toggle('hidden');
+        
+    if (mobileMenu.classList.contains('hidden')) {
+        menuIcon.classList.remove('fa-times');
+        menuIcon.classList.add('fa-bars');
+    } else {        
+        menuIcon.classList.remove('fa-bars');
+        menuIcon.classList.add('fa-times');
+    }
     }
 
     menuToggle.addEventListener('click', toggleMobileMenu);

@@ -56,9 +56,11 @@ $root = ROOT_URL;
                 <a href="#" class="text-gray-600 hover:text-teal-600 font-medium flex items-center">
                     <i class="fas fa-heart mr-2"></i> Favorites
                 </a>
+                <?php if($full_name): ?>
                 <a href="#tab2" class="text-gray-600 hover:text-teal-600 font-medium flex items-center">
                     <i class="fas fa-calendar-check mr-2"></i> My Bookings
                 </a>
+                <?php endif; ?>
             </nav>
             <div class="flex items-center space-x-4">
 			 <?php if($full_name): ?>
