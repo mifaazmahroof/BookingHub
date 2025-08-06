@@ -67,10 +67,12 @@ s_userName.addEventListener("input", function () {
 
 s_passWord.addEventListener("input", function () {
     document.getElementById("eye_pass").style.display = "block";
+	passwordResponse.style.display = "block";
     const password = s_passWord.value;
     const passwordCriteria = /^(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
 if (password==="") {
         document.getElementById("eye_pass").style.display = "none";
+        passwordResponse.style.display = "none";
     }
     if (passwordCriteria.test(password)) {
         passwordResponse.style.color = "green";
@@ -85,11 +87,14 @@ if (password==="") {
 
 s_confirmPassword.addEventListener("input", function () {
     document.getElementById("eye_Cpass").style.display = "block";
+	confirmPasswordResponse.style.display = "block";
     const password = s_passWord.value;
     const confirmPassword = s_confirmPassword.value;
     if (confirmPassword==="") {
         document.getElementById("eye_Cpass").style.display = "none";
+        confirmPasswordResponse.style.display = "none";
     }
+	
     if (confirmPassword === password) {
         confirmPasswordResponse.style.color = "green";
         confirmPasswordResponse.textContent = "Passwords match.";

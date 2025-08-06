@@ -166,25 +166,36 @@ $provinces = getDistinctProvinces();
       <div class="mb-3 position-relative">
   <label for="s_pass" class="form-label">Password <span class="text-danger">*</span></label>
   
-  <div class="input-group">
-    <input type="password" class="form-control" id="s_pass" name="password" required autocomplete="off">
+<!--   <div class="input-group">
+    <input type="password" class="mb-2 w-full rounded border px-3 py-2 pr-10" id="s_pass" name="password" required autocomplete="off">
     <span class="input-group-text cursor-pointer" id="eye_pass" style="display:none" onclick="togglePasswordVisibility()" style="cursor: pointer;">
       <i class="fa fa-eye-slash" id="toggleIcon" aria-hidden="true"></i>
     </span>
-  </div>
-
-  <label id="passcheck" class="form-text"></label>
+  </div> -->
+<div class="relative">
+  <input type="password" placeholder="Password" class="mb-2 w-full rounded border px-3 py-2 pr-10" id="s_pass" name="password"  requiredautocomplete="off">
+  <span class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer text-gray-700 py-4" id="eye_pass" onclick="togglePasswordVisibility()" style="cursor: pointer;">
+    <i class="fa fa-eye-slash" id="toggleIcon" aria-hidden="true"></i>
+    </span>
+</div>
+  <label id="passcheck"></label>
 </div>
 
       <div class="mb-3 position-relative">
         <label for="s_c_pass" class="form-label">Confirm Password <span class="text-danger">*</span></label>
-        <div class="input-group">
+<!--         <div class="input-group">
         <input type="password" class="form-control" id="s_c_pass" name="confirm_password" required disabled>
         <span class="input-group-text cursor-pointer" id="eye_Cpass" style="display:none" onclick="toggleCPasswordVisibility()" style="cursor: pointer;">
       <i class="fa fa-eye-slash" id="toggleIcon2" aria-hidden="true"></i>
     </span>
         
-        </div>
+        </div> -->
+        <div class="relative">
+  <input type="password" placeholder="Confirm Password" class="mb-2 w-full rounded border px-3 py-2 pr-10" id="s_c_pass" name="confirm_password" required disabled>
+  <div class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer text-gray-700 py-4" onclick="toggleCPasswordVisibility()" id="eye_Cpass">
+    <i class="fa fa-eye-slash" id="toggleIcon2" aria-hidden="true"></i>
+  </div>
+</div>
         <label id="confirmcheck" class="form-text"></label>
       </div>
 

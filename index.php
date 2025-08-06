@@ -363,7 +363,7 @@ $role = $_SESSION['role'] ?? null;
 <div class="relative">
   <input type="password" placeholder="Password" class="mb-2 w-full rounded border px-3 py-2 pr-10" id="reg_pass" required>
   <div class="absolute inset-y-0 right-0 flex items-center px-3 cursor-pointer text-gray-700" onclick="togglePasswordVisibility()">
-    <i class="fa fa-eye-slash" id="toggleIcon" aria-hidden="true"></i>
+    <i class="fa fa-eye-slash" id="reg_toggleIcon" aria-hidden="true"></i>
   </div>
 </div>
 
@@ -723,7 +723,7 @@ else{
 <script>
   function togglePasswordVisibility() {
     const passInput = document.getElementById("reg_pass");
-    const toggleIcon = document.getElementById("toggleIcon");
+    const toggleIcon = document.getElementById("reg_toggleIcon");
     const isPassword = passInput.type === "password";
 
     passInput.type = isPassword ? "text" : "password";
