@@ -59,7 +59,7 @@ try {
 
 }
 
-if (Register_popup){
+if (Register_popup.offsetParent !== null){
 
               const fname = document.getElementById("reg_fname");
               const lname = document.getElementById("reg_lname");
