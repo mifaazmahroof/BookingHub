@@ -1,5 +1,4 @@
 <?php
-/* Template Name: Profile */
 include 'futsal_db.php';
 session_start();
 $role = $_SESSION['role'] ?? null;
@@ -17,7 +16,6 @@ if ($role === "customer" && $user_id) {
 
 if ($role === "client" && $user_id) {
     $user = getClientName($user_id); // Changed from $client_id to $user_id assuming same session key
-    
     $full_name = $user['name'];
 }
 
