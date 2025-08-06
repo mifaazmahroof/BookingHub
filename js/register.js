@@ -201,7 +201,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     const result = await response.text();
     responseDiv.innerText = result;
-    window.location.href = './profile.php';
+    window.location.href = './Profile.php';
     }
     else{
     

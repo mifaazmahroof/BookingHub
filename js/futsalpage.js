@@ -51,7 +51,7 @@ function validate() {
     if (`Result: ${result.success}`) {
       
       if(selectedType === 'Client'){
-      window.location.href ='./profile.php';
+      window.location.href ='./Profile.php';
     }
       else if (selectedType === 'Customer'){      
         location.reload();

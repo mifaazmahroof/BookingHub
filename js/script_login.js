@@ -42,7 +42,7 @@ try {
 
   if (result.success) {
     if (selectedType === 'Client') {
-      window.location.href = './profile.php';
+      window.location.href = './Profile.php';
     } else if (selectedType === 'Customer') {
       location.reload();
     }
@@ -149,7 +149,7 @@ console.log(formData);
     const result = await response.text();
     responseDiv.innerText = result;
      alert(`Database response: ${result}`);
-    window.location.href = './profile.php';
+    window.location.href = './Profile.php';
     }
     else{
     

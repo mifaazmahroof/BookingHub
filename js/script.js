@@ -1119,7 +1119,7 @@ if(logout_btn){
     });}
 if(profile_pg){
     profile_pg.addEventListener("click",function(){
-         window.location.href = './profile.php';
+         window.location.href = './Profile.php';
 
     });}
     editButton.addEventListener("click", function () {
