@@ -26,7 +26,7 @@ function validate() {
 
 
  const body = `username=${encodeURIComponent(username.value)}&password=${encodeURIComponent(password.value)}&logintype=${encodeURIComponent(selectedType)}`;
-
+console.log(body);
 try {
   const response = await fetch('/futsal_db.php?action=login', {
     method: 'POST',

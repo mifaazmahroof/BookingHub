@@ -1450,7 +1450,7 @@ function login($data, $conn) {
 
     $table = $logintype === 'client' ? 'stadium' : 'customer';
     $userfield = $logintype === 'client' ? 'username' : 'phone_number';
-    $passfield = $logintype === 'client' ? 'password' : 'NIC';
+    $passfield = $logintype === 'client' ? 'password' : 'password';
     // First fetch the hashed password from DB for the given username/phone number
     $query = "SELECT * FROM $table WHERE BINARY $userfield = ? AND status = ?";
 	$debugQuery = "SELECT * FROM $table WHERE BINARY $userfield = '$username' AND status = '$status'";
@@ -1473,7 +1473,7 @@ if ($stmt) {
         // Use password_verify only for 'client' where password is hashed
         if (
             ($logintype === 'client' && password_verify($password, $storedHash)) || //password_verify($password, $storedHash)
-            ($logintype !== 'client' && $password === $storedHash) // direct compare for NIC
+            ($logintype !== 'client' && password_verify($password, $storedHash))//($logintype !== 'client' && $password === $storedHash) // direct compare for NIC
         ) {
             $_SESSION['user_id'] = $row[$logintype === 'client' ? 'stadium_id' : 'cus_id'];
             $_SESSION['role'] = $logintype;

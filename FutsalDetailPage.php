@@ -43,8 +43,8 @@ $emptyStars = 5 - $fullStars - ($hasHalfStar ? 1 : 0);
                         <?= htmlspecialchars($pitchdetails['location']) ?>
                     </button>
                  </form> -->
-                  <form id="redirectForm" action="location.php" method="POST">
-  <input type="hidden" name="value" id="valueInput" value="<?= htmlspecialchars($pitchdetails['location']) ?>">
+                  <form id="redirectFormLoc" action="location.php" method="POST">
+  <input type="hidden" name="value" id="valueInputLoc" value="<?= htmlspecialchars($pitchdetails['location']) ?>">
   <button class="text-gray-600 hover:text-teal-600 border-0 bg-transparent cursor-pointer p-0 m-0" onclick="submitForm(<?= htmlspecialchars($pitchdetails['location']) ?>)">
                                 <?= htmlspecialchars($pitchdetails['location']) ?>
                             </button>
@@ -551,10 +551,10 @@ function loadTimeSlots(futsal, dateString, dateObject) {
 </script>
 <script>
   function submitForm(val) {
-    document.getElementById('valueInput').value = val;
+    document.getElementById('valueInputLoc').value = val;
         // Optional: console log for debugging
     
-    document.getElementById('redirectForm').submit();
+    document.getElementById('redirectFormLoc').submit();
   }
 </script>
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
