@@ -56,7 +56,7 @@
                             <span>info@futsalsl.com</span>
                         </li>
                     </ul>
-                    <button id="installBtn" style="display:block;" type="button">Install App</button>
+                    <button id="installBtn" style="display:none;" type="button">Install App</button>
                 </div>
             </div>
             

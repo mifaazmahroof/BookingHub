@@ -399,7 +399,7 @@ $role = $_SESSION['role'] ?? null;
                 <div class="w-20 h-1 bg-teal-600 mx-auto"></div>
                 <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Discover the most popular futsal venues based on user ratings and bookings</p>
             </div>
-            <div class="overflow-x-auto no-scrollbar">
+            <div class="overflow-x-auto no-scrollbar place-items-center">
             <div class="flex gap-8 min-w-max">
                
     <?php foreach($getalldetails as  $row): ?>
