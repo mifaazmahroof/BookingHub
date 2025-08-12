@@ -56,6 +56,7 @@
                             <span>info@futsalsl.com</span>
                         </li>
                     </ul>
+                    <button id="installBtn" style="display:none;">Install App</button>
                 </div>
             </div>
             
@@ -65,7 +66,24 @@
             </div>
         </div>
     </footer>
+<script>
+  let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
 
+  // Show custom install button
+  document.getElementById('installBtn').style.display = 'block';
+
+  document.getElementById('installBtn').addEventListener('click', () => {
+    deferredPrompt.prompt();
+    deferredPrompt.userChoice.then((choiceResult) => {
+      deferredPrompt = null;
+    });
+  });
+});
+
+</script>
 <script>
                     
 

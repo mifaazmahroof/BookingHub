@@ -26,6 +26,8 @@ $root = ROOT_URL;
 <html lang="en" x-data="tabHandler()" xmlns="http://www.w3.org/1999/xhtml">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#0d6efd">
     <title>Futsal Sri Lanka - Book Your Ground</title>
       
 <!--     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -34,6 +36,11 @@ $root = ROOT_URL;
 
     <link href="./css/output.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/service-worker.js');
+}
+</script>
     
 </head>
 <body>
