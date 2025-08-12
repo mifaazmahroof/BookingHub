@@ -41,6 +41,9 @@ if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('/service-worker.js');
 }
 </script>
+<script>
+    alert("Welcome to booking hub.");
+</script>
     
 </head>
 <body>
