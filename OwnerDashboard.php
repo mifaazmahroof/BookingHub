@@ -895,13 +895,14 @@ else{
                disabled>
       </div> -->
     </div>
+    </div>
     <!-- Discount Type -->
     <div class="flex py-2">
       <div class="w-1/3 font-medium text-gray-700"><label class="align-middle">Discount Type</label></div>
       <div class="flex-1">
             <select class="w-full px-3 py-1.5 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500" name="discount_type" id="discount_type" disabled
     >
- <option value="percentage" <?= $client_details['discount_type'] === 'percentage' ? 'selected' : '' ?>>Percentage</option>
+ <option value="percentage" <?= $client_details['discount_type'] === 'percentage' ? 'selected' : '' ?>></option>Percentage</option>
       <option value="amount" <?= $client_details['discount_type'] === 'amount' ? 'selected' : '' ?>>Amount</option>
       <option value="none" <?= $client_details['discount_type'] === 'none' ? 'selected' : '' ?>>None</option>
         </select>
@@ -921,14 +922,17 @@ else{
     </div>
 
     <!-- Buttons -->
-    <div class="flex justify-end pt-6 gap-4">
+<div class="flex justify-center pt-6 gap-4">
       <button type="button" id="editBtn"
-              class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-6 rounded-md transition"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-2 rounded-md transition"
               onclick="toggleEdit(true)">Edit</button>
 
       <button type="submit" id="saveBtn"
-              class="bg-green-600 hover:bg-green-700 text-white px-10 py-3 rounded-md transition hidden"
+              class="bg-green-600 hover:bg-green-700 text-white px-10 py-2 rounded-md transition hidden"
               onclick="saveProfile()">Save</button>
+              <button type="submit" id="cancelBtn"
+              class="bg-green-600 hover:bg-green-700 text-white px-10 py-2 rounded-md transition hidden"
+              onclick="cancelUpdate()">Cancel</button>
     </div>
   </form>
 </div>
@@ -1394,6 +1398,7 @@ const menuIcon = document.getElementById('menuIcon');
   const textareas = document.querySelectorAll('#profileForm textarea');
   const editBtn = document.getElementById('editBtn');
   const saveBtn = document.getElementById('saveBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
   const typeSelect = document.getElementById('discount_type');
   const discountInput = document.getElementById('discount');
 
@@ -1403,6 +1408,7 @@ const menuIcon = document.getElementById('menuIcon');
 
   editBtn.classList.toggle('hidden', enable);
   saveBtn.classList.toggle('hidden', !enable);
+  cancelBtn.classList.toggle('hidden', !enable);
 
   // Re-check discount input state when enabling edit
   if (enable) {
@@ -1463,6 +1469,10 @@ window.addEventListener('DOMContentLoaded', () => {
     };
 
     console.log("Save to DB:", updatedData);
+    toggleEdit(false);
+  }
+
+  function cancelUpdate(){
     toggleEdit(false);
   }
 </script>

@@ -402,7 +402,7 @@ $role = $_SESSION['role'] ?? null;
             <div class="overflow-x-auto no-scrollbar">
             <div class="flex gap-8 min-w-max">
                
-    <?php foreach($getalldetails as $row): ?>
+    <?php foreach($getalldetails as  $row): ?>
         
 <div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 ground-card transition-all duration-300">
                     <div class="relative">
@@ -441,7 +441,7 @@ $imageUrl = strpos($image, '?') !== false
    
     <div class="flex items-center text-gray-500 mt-2 sm:mt-0">
         <i class="fas fa-map-marker-alt mr-1 text-teal-600"></i>
-        <span class="text-sm">2.5 km</span>
+        <span class="text-sm" id="distance-<?php echo $row['id']; ?>"></span>
     </div>
 </div>
                      
@@ -983,6 +983,83 @@ districtDropdown.addEventListener('change', async function () {
       }
     }
   </script>
+  <script>
+        const ORS_API_KEY = "eyJvcmciOiI1YjNjZTM1OTc4NTExMTAwMDFjZjYyNDgiLCJpZCI6ImZkYjMzZTRmNThjODQxZDM5ODBhMDUyYmYzMzIwZDI3IiwiaCI6Im11cm11cjY0In0="; // Replace with your key
+        const cities = <?php echo json_encode(value: $getalldetails); ?>; // Pass PHP array to JS
+
+        async function getCoordinates(city) {
+            const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(city)}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.length > 0) {
+                return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+            }
+            throw new Error("City not found: " + city);
+        }
+
+        async function getDistance(lat1, lon1, lat2, lon2) {
+            const routeUrl = `https://api.openrouteservice.org/v2/directions/driving-car?api_key=${ORS_API_KEY}&start=${lon1},${lat1}&end=${lon2},${lat2}`;
+            const response = await fetch(routeUrl);
+            const data = await response.json();
+            if (data.features && data.features.length > 0) {
+                return (data.features[0].properties.summary.distance / 1000).toFixed(2); // in km
+            }
+            throw new Error("Route not found");
+        }
+
+        function calculateDistances(userLat, userLon) {
+            cities.forEach(async (stadium) => {
+                const distanceElement = document.getElementById(`distance-${stadium.id}`);
+                if (!distanceElement) {
+            console.warn(`Element #distance-${stadium.id} not found`);
+            return;
+        }
+                try {
+                    const destCoords = await getCoordinates(`${stadium.Stadium_location}, Sri Lanka`);
+                    const distanceKm = await getDistance(userLat, userLon, destCoords.lat, destCoords.lon);
+                    distanceElement.textContent = `${distanceKm} km`;
+                } catch (error) {
+                  console.log(error);
+                    distanceElement.textContent = `${error}`;
+                }
+            });
+        }
+		 
+
+        // Get user location when page loads
+        window.onload = () => {
+    navigator.geolocation.getCurrentPosition(
+        (position) => {
+            const userLat = position.coords.latitude;
+            const userLon = position.coords.longitude;
+
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLon}`)
+                .then(res => res.json())
+                .then(data => {
+                    const country = data.address.country || "Unknown country";
+
+                    if (country === 'Sri Lanka') {
+                        calculateDistances(userLat, userLon);
+                    } else {
+                        cities.forEach((stadium) => {
+                            const distanceElement = document.getElementById(`distance-${stadium.id}`);
+                            if (distanceElement) {
+                                distanceElement.textContent = '~';
+                            } else {
+                                console.warn(`Element #distance-${stadium.id} not found`);
+                            }
+                        });
+                    }
+                })
+                .catch(err => console.error("Error getting country:", err));
+        },
+        (error) => {
+            alert("Unable to get your location: " + error.message);
+        }
+    );
+};
+
+    </script>
 <script src="js/script.js"></script>
 <script src="js/script_login.js"></script>
 

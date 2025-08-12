@@ -43,7 +43,7 @@ $root = ROOT_URL;
             <div class="flex items-center">
                 <div class="text-2xl font-bold text-teal-600 flex items-center">
                     <a href="<?= htmlspecialchars($root) ?>"  class="no- text-teal-700 hover:text-teal-900 flex items-center"><i class="fas fa-futbol mr-2"></i>
-                    <span>FutsalSL</span></a>
+                    <span>FutsalSL</span><sup class="text-gray-500 hover:text-gray-900 text-sm" id="name_ctr" style="text-transform: uppercase;"></sup></a>
                 </div>
             </div>
             <nav class="hidden md:flex space-x-8">

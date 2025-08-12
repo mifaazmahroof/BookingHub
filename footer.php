@@ -70,6 +70,7 @@
                     
 
 const userLocation = document.getElementById("UserLocation");
+const countryCode = document.getElementById("name_ctr");
 
 function getLocation() {
       if (navigator.geolocation) {
@@ -119,7 +120,10 @@ function getLocation() {
       const village = data.address.village;
       const country = data.address.country;
       const poCode = data.address.postcode;
-      userLocation.innerHTML = `You're in ${town}, ${country}`;
+       // Pick first available: town → village → city
+      const locationName = town || village || city || "Unknown location";
+      userLocation.innerHTML = `You're in ${locationName}, ${country}`;
+      countryCode.textContent = `${data.address.country_code}`;
       
     })
 
