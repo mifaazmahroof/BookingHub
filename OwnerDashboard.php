@@ -1108,7 +1108,7 @@ else{
       <form method="POST" action="" id="createPitchForm" name="createPitchForm" class="flex flex-col">
         <!-- Modal Header -->
         <div class="flex items-center justify-between border-b-zinc-300 shadow pb-3 flex-shrink-0">
-          <h2 class="text-xl font-semibold">Create New Pitch</h2>
+          <h2 class="text-xl font-semibold">Create a new Facility</h2>
           <button type="button" class="text-gray-500 hover:text-black text-2xl" onclick="closeModal()">×</button>
         </div>
 
