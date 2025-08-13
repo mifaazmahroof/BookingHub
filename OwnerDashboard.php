@@ -244,7 +244,7 @@ $root = ROOT_URL;
                         <i class="fas fa-futbol mr-2"></i>
                     <span>FutsalSL</span></a>
                 </div>
-                <div class="text-sm text-gray-600">Vendor Dashboard</div>
+                <div class="text-sm text-gray-600">Vendor Mobile Dashboard</div>
             </div>
             <nav class="flex-1 overflow-y-auto no-scrollbar md:p-1 p-2 ">
              <div class="mb-4 bg-white rounded-xl shadow p-3">
@@ -253,11 +253,11 @@ $root = ROOT_URL;
                         <i class="fas fa-tachometer-alt w-5 mr-3"></i>
                         <span>Dashboard</span>
                     </a>
-                    <a href="#grounds_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#ground_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-futbol w-5 mr-3"></i>
                         <span>My Grounds</span>
                     </a>
-                    <a href="#bookings_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
+                    <a href="#booking_main" class="sidebar-link flex items-center py-3 px-4 rounded-lg mb-2 text-gray-700 hover:bg-gray-100 transition-all no-underline">
                         <i class="fas fa-calendar-alt w-5 mr-3"></i>
                         <span>Bookings</span>
                     </a>
@@ -337,17 +337,20 @@ else{
           <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
       </button>
-      <div x-show="open" @click.away="open = false" class="absolute z-10 mt-2 w-full rounded bg-white shadow">
+<!-- Desktop view-->
+      <div x-show="open" @click.away="open = false" class="absolute flex flex-col z-10 mt-2 w-full rounded bg-white shadow flex flex-col">
         <a href="#profile_main"  @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline" onclick="directpage(event, this.getAttribute('href'))">
-          <i class="fa-solid fa-user"></i> My profile
+          <i class="fa-solid fa-user"></i><span class="hidden sm:block"> My profile</span>
         </a>
         <a href="#settings_main" @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline" onclick="directpage(event, this.getAttribute('href'))">
-          <i class="fa-solid fa-gear"></i> Settings
+          <i class="fa-solid fa-gear"></i><span class="hidden sm:block"> Settings</span>
         </a>
         <a href="./logout.php" @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline">
-          <i class="fa-solid fa-sign-out-alt"></i> Sign out
+          <i class="fa-solid fa-sign-out-alt"></i><span class="hidden sm:block"> Sign out</span>
         </a>
       </div>
+
+
     </div>
   </div>
 
@@ -1133,11 +1136,11 @@ else{
 <div class="col-span-full rounded-2xl border border-zinc-400 shadow-zinc-500  shadow-md bg-white p-6 space-y-4">
   <!-- Toggle Row -->
   <div class="flex items-center justify-between">
-    <label for="enableWeekendTime" class="text-sm font-medium text-zinc-900">
+    <label for="enableWeekTime" class="text-sm font-medium text-zinc-900">
       Will this be available 24 hours a day?
     </label>
     <label class="relative inline-flex items-center cursor-pointer">
-      <input type="checkbox" id="enableWeekendTime" class="sr-only peer" onchange="toggle24open(this)">
+      <input type="checkbox" id="enableWeekTime" class="sr-only peer" onchange="toggle24open(this)">
       <div class="w-11 h-6 rounded-full bg-zinc-300 peer-checked:bg-green-500 transition-colors duration-200"></div>
       <div class="absolute left-1 top-1 h-4 w-4 rounded-full bg-white transition-transform duration-200 transform peer-checked:translate-x-5"></div>
     </label>
@@ -1174,7 +1177,30 @@ else{
   </div>
 </div>
 
+<!-- Toggle for Weekend Timing -->
+            <div class="col-span-full bg-white border border-zinc-400 shadow-zinc-500  shadow-md rounded-2xl p-4 space-y-2">
+              <div class="col-span-full flex items-center justify-between mt-2">
+  <label for="enableWeekendTime" class="text-sm font-medium">Enable Weekend Opening/Closing Time</label>
+  <label class="relative inline-flex items-center cursor-pointer">
+    <input type="checkbox" id="enableWeekendTime" class="sr-only peer" onchange="toggleWeekendTime(this)">
+    <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-600 transition-all duration-200"></div>
+    <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform peer-checked:translate-x-full"></div>
+  </label>
+</div>
 
+          <!-- Weekend Time Fields (Hidden by default) -->
+          <div id="weekendTimeFields" class="col-span-full grid sm:grid-cols-2 gap-4 hidden">
+            <div>
+              <label for="weekend_open_time" class="block text-sm font-medium mb-1">Weekend Opening Time:</label>
+              <input list="hourList" name="weekend_open_time" id="weekend_open_time" placeholder="HH:00" class="w-full rounded border border-zinc-400 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-200">
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Weekend Closing Time:</label>
+              <input list="hourList" name="weekend_close_time" id="weekend_close_time" placeholder="HH:00" class="w-full rounded border border-zinc-400 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-200">
+            </div>
+          </div>
+            </div>
+            
             <div class="col-span-full bg-white border border-zinc-400 shadow-zinc-500  shadow-md rounded-2xl p-6 space-y-4">
                  <div class="col-span-full flex items-center justify-between mt-2">
   <label class="text-sm font-medium">Set Off Peak Start/End Time</label>
@@ -1217,30 +1243,7 @@ else{
 </div>
             
             </div>
-<!-- Toggle for Weekend Timing -->
-            <div class="col-span-full bg-white border border-zinc-400 shadow-zinc-500  shadow-md rounded-2xl p-4 space-y-2">
-              <div class="col-span-full flex items-center justify-between mt-2">
-  <label for="enableWeekendTime" class="text-sm font-medium">Enable Weekend Opening/Closing Time</label>
-  <label class="relative inline-flex items-center cursor-pointer">
-    <input type="checkbox" id="enableWeekendTime" class="sr-only peer" onchange="toggleWeekendTime(this)">
-    <div class="w-11 h-6 bg-gray-300 peer-focus:outline-none rounded-full peer peer-checked:bg-green-600 transition-all duration-200"></div>
-    <div class="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-200 transform peer-checked:translate-x-full"></div>
-  </label>
-</div>
 
-          <!-- Weekend Time Fields (Hidden by default) -->
-          <div id="weekendTimeFields" class="col-span-full grid sm:grid-cols-2 gap-4 hidden">
-            <div>
-              <label for="weekend_open_time" class="block text-sm font-medium mb-1">Weekend Opening Time:</label>
-              <input list="hourList" name="weekend_open_time" id="weekend_open_time" placeholder="HH:00" class="w-full rounded border border-zinc-400 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-200">
-            </div>
-            <div>
-              <label class="block text-sm font-medium mb-1">Weekend Closing Time:</label>
-              <input list="hourList" name="weekend_close_time" id="weekend_close_time" placeholder="HH:00" class="w-full rounded border border-zinc-400 px-3 py-2 text-sm shadow-sm focus:border-teal-500 focus:ring focus:ring-teal-200">
-            </div>
-          </div>
-            </div>
-            
        
             <!-- Toggle for Weekend pricing -->
              <div class="col-span-full bg-white border border-zinc-400 shadow-zinc-500  shadow-md rounded-2xl p-4 space-y-2">
@@ -1335,7 +1338,7 @@ else{
 
         <!-- Modal Footer -->
         <div class="mt-6 text-right border-t pt-4 flex-shrink-0">
-          <button type="submit" name="create_pitch" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md shadow">Create Pitch</button>
+          <button type="submit" name="create_pitch" class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md shadow">Create Facility</button>
         </div>
       </form>
     </div>
