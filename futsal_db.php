@@ -421,13 +421,14 @@ function getCities($conn, $query) {
 
 
 function getfutsals($conn, $query) {
-    $stmt = $conn->prepare("SELECT * FROM stadium WHERE name LIKE CONCAT(?, '%')");
+    $search = "%{$query}%";
+    $stmt = $conn->prepare("SELECT * FROM stadium WHERE name LIKE ?");
 
     if (!$stmt) {
         die("Prepare failed: " . $conn->error);
     }
 
-    $stmt->bind_param("s", $query);
+    $stmt->bind_param("s", $search);
     $stmt->execute();
     $result = $stmt->get_result();
 

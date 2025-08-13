@@ -134,10 +134,160 @@ courtsContainer.innerHTML = "";
 
     fetchCourts()
 
+// Function to get coordinates from OpenStreetMap Nominatim
+async function getCoordinates(city) {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)},Sri+Lanka&format=json&limit=1`;
+    const res = await fetch(url, { headers: { 'User-Agent': 'DistanceSortExample/1.0' } });
+    const data = await res.json();
+    if (data.length > 0) {
+        return {lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon)};
+    }
+    return {lat: 0, lon: 0}; // fallback if not found
+}
+
+// Haversine formula
+function distance(lat1, lon1, lat2, lon2) {
+    const R = 6371; // km
+    const dLat = (lat2-lat1) * Math.PI/180;
+    const dLon = (lon2-lon1) * Math.PI/180;
+    const a = Math.sin(dLat/2)**2 +
+              Math.cos(lat1 * Math.PI/180) *
+              Math.cos(lat2 * Math.PI/180) *
+              Math.sin(dLon/2)**2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    return R * c;
+}
 
 
+
+
+
+    async function userCountry(lat, lon) {
+        try {
+            const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+            const data = await res.json();
+            return data.address?.country || "Unknown country";
+        } catch (err) {
+            console.error(err);
+            return "Unknown country";
+        }
+    }
 
     function getLocByCourt(sport_type) {
+       
+        document.getElementById("cost_lst").style.display = 'none';
+        document.querySelector(".scrollable-div").style.display = "none";
+        if (sport_type) {
+            fetch(`/futsal_db.php?action=getLocByCourt&court_type=${sport_type}`)
+            .then(response => response.text()) // Read as text first
+            .then(text => {
+                if (!text) {
+                    throw new Error("Empty response from server");
+                }
+                return JSON.parse(text); // Parse JSON
+            })
+            .then(locations => {
+                if (!Array.isArray(locations)) {
+                    throw new Error("Invalid JSON response");
+                }
+                if (!navigator.geolocation) {
+                    alert("Geolocation not supported by browser.");
+                    return;
+                }
+
+                navigator.geolocation.getCurrentPosition(async(pos) => {
+                    const userLat = pos.coords.latitude;
+                    const userLon = pos.coords.longitude;
+                    const country = await userCountry(pos.coords.latitude, pos.coords.longitude);
+
+                    const locationsContainer = document.getElementById("locationsList");
+                    if (locationsContainer) {
+
+                        locationsContainer.innerHTML = "";
+                        const defaultOption = document.createElement("option");
+                        defaultOption.textContent = "--Select Location--";
+                        defaultOption.value = "";
+                        locationsContainer.appendChild(defaultOption);
+
+                        if (country == 'Sri Lanka') {
+                            const cityCoords = await Promise.all(locations.map(async city => {
+                                        const coord = await getCoordinates(city);
+                                        console.log(`place Lat: ${coord.lat}, User Lon: ${coord.lon}`);
+                                        return {
+                                            name: city,
+                                            lat: coord.lat,
+                                            lon: coord.lon
+                                        };
+                                    }));
+                            // Calculate distance for each city
+                            cityCoords.forEach(city => {
+                                city.distance = distance(userLat, userLon, city.lat, city.lon);
+                            });
+
+                            // Sort by nearest first
+                            cityCoords.sort((a, b) => a.distance - b.distance);
+
+                            cityCoords.forEach(location => {
+                                const locOption = document.createElement("option");
+                                locOption.value = location.name;
+                                locOption.textContent = `${location.name}`;
+                                locationsContainer.appendChild(locOption);
+                            });
+
+                        } else {
+                            locations.forEach(location => {
+                                const locOption = document.createElement("option");
+                                locOption.value = location;
+                                locOption.textContent = location;
+                                locationsContainer.appendChild(locOption);
+                            });
+
+                        }
+
+                    } else {
+                        console.error('Locations container not found');
+                    }
+
+                });
+
+            })
+            .catch(error => console.error('Error fetching locations:', error));
+
+        }
+         if (selectedDate){
+             document.getElementById("locationsList").disabled = false;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    function getLocByCourt_(sport_type) {
         document.getElementById("cost_lst").style.display = 'none';
         document.querySelector(".scrollable-div").style.display = "none";
         if (sport_type){
@@ -153,26 +303,68 @@ fetch(`/futsal_db.php?action=getLocByCourt&court_type=${sport_type}`)
         if (!Array.isArray(locations)) {
             throw new Error("Invalid JSON response");
         }
-        const locationsContainer = document.getElementById("locationsList");
+        if (!navigator.geolocation) {
+        alert("Geolocation not supported by browser.");
+        return;
+    }
+    async function userCountry(lat, lon) {
+    try {
+        const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`);
+        const data = await res.json();
+        return data.address?.country || "Unknown country";
+    } catch (err) {
+        console.error(err);
+        return "Unknown country";
+    }
+}
+    navigator.geolocation.getCurrentPosition(async (pos) => {
+        const userLat = pos.coords.latitude;
+        const userLon = pos.coords.longitude;
+        const country = await userCountry(pos.coords.latitude, pos.coords.longitude);
+if (country == 'Sri Lanka')
+    {
+
+const cityCoords = await Promise.all(locations.map(async city => {
+            const coord = await getCoordinates(city);
+            console.log(`place Lat: ${coord.lat}, User Lon: ${coord.lon}`);
+            return { name: city, lat: coord.lat, lon: coord.lon };
+        }));
+// Calculate distance for each city
+        cityCoords.forEach(city => {
+            city.distance = distance(userLat, userLon, city.lat, city.lon);
+        });
+
+        // Sort by nearest first
+        cityCoords.sort((a,b) => a.distance - b.distance);
+
+const locationsContainer = document.getElementById("locationsList");
         if (locationsContainer) {
-            /* if (locations.length == 1){
-                const location = locations[0];                
-            locationsContainer.innerHTML = `<option value="${location}">${location}</option>`;
- getCourtDetails(location, selectedCourt);
-        }
-        else{
-            locationsContainer.innerHTML = "";
+           
+         locationsContainer.innerHTML = "";
             const defaultOption = document.createElement("option");
             defaultOption.textContent = "--Select Location--";
             defaultOption.value = "";
             locationsContainer.appendChild(defaultOption);
-            locations.forEach(location => {
+            cityCoords.forEach(location => {
                 const locOption = document.createElement("option");
-                locOption.value = location;
-                locOption.textContent = location;
+                locOption.value = location.name;
+                locOption.textContent = `${location.name}`;
                 locationsContainer.appendChild(locOption);
             });
-        } */
+        
+        
+        
+        
+        
+        } else {
+            console.error('Locations container not found');
+        }
+
+}
+else{
+    const locationsContainer = document.getElementById("locationsList");
+        if (locationsContainer) {
+           
          locationsContainer.innerHTML = "";
             const defaultOption = document.createElement("option");
             defaultOption.textContent = "--Select Location--";
@@ -187,6 +379,64 @@ fetch(`/futsal_db.php?action=getLocByCourt&court_type=${sport_type}`)
         } else {
             console.error('Locations container not found');
         }
+}
+
+        // Fetch coordinates for all cities
+        
+
+
+        
+/* 
+        // Display
+        const list = document.getElementById('locationList');
+        list.innerHTML = '';
+        cityCoords.forEach(city => {
+            const li = document.createElement('li');
+            li.textContent = `${city.name} - ${city.distance.toFixed(2)} km`;
+            list.appendChild(li);
+        }); */
+    });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* const locationsContainer = document.getElementById("locationsList");
+        if (locationsContainer) {
+           
+         locationsContainer.innerHTML = "";
+            const defaultOption = document.createElement("option");
+            defaultOption.textContent = "--Select Location--";
+            defaultOption.value = "";
+            locationsContainer.appendChild(defaultOption);
+            locations.forEach(location => {
+                const locOption = document.createElement("option");
+                locOption.value = location;
+                locOption.textContent = location;
+                locationsContainer.appendChild(locOption);
+            });
+        } else {
+            console.error('Locations container not found');
+        } */
         
 
     })
@@ -256,9 +506,7 @@ document.getElementById("date").value = `${year}-${month}-${day}`;
        
         selectedCourt = this.value
         getLocByCourt(this.value);
-         if (selectedDate){
-             document.getElementById("locationsList").disabled = false;
-        }
+         
     });}
 if (document.getElementById("date")){
     

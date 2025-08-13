@@ -133,13 +133,14 @@ $role = $_SESSION['role'] ?? null;
                             <span class="text-gray-600">Duration</span>
                             <span class="font-medium" id="tt_hours">0 hour</span>
                         </div>
-                        <div class="flex justify-between items-center mb-2">
-                            <span class="text-red-600">Discount</span>
-                            <span class="font-medium text-red-600" id="discounts">Rs. 0.00</span>
-                        </div>
+                        
                         <div class="flex justify-between items-center mb-2">
                             <span class="text-gray-600">Service fee</span>
                             <span class="font-medium" id="service_fee">Rs. 0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center mb-2">
+                            <span class="text-red-600">Discount</span>
+                            <span class="font-medium text-red-600" id="discounts">Rs. 0.00</span>
                         </div>
                         
                         <div class="flex justify-between items-center pt-3 border-t border-gray-200 mt-3">
