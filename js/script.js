@@ -174,7 +174,6 @@ function distance(lat1, lon1, lat2, lon2) {
     }
 
     function getLocByCourt(sport_type) {
-       
         document.getElementById("cost_lst").style.display = 'none';
         document.querySelector(".scrollable-div").style.display = "none";
         if (sport_type) {
@@ -212,7 +211,6 @@ function distance(lat1, lon1, lat2, lon2) {
                         if (country == 'Sri Lanka') {
                             const cityCoords = await Promise.all(locations.map(async city => {
                                         const coord = await getCoordinates(city);
-                                        console.log(`place Lat: ${coord.lat}, User Lon: ${coord.lon}`);
                                         return {
                                             name: city,
                                             lat: coord.lat,
@@ -253,9 +251,6 @@ function distance(lat1, lon1, lat2, lon2) {
             })
             .catch(error => console.error('Error fetching locations:', error));
 
-        }
-         if (selectedDate){
-             document.getElementById("locationsList").disabled = false;
         }
     }
 
@@ -506,7 +501,9 @@ document.getElementById("date").value = `${year}-${month}-${day}`;
        
         selectedCourt = this.value
         getLocByCourt(this.value);
-         
+         if (selectedDate){
+             document.getElementById("locationsList").disabled = false;
+        }
     });}
 if (document.getElementById("date")){
     
@@ -1116,6 +1113,8 @@ const theadRow = document.createElement("tr");
             // Get the center's peak/off-peak info
 
             const center = futsalCenters.find(center => center.stadium_name === centerName && center.court_name === courtType);
+            firstItemCost = center?.initial_cost ?? 0;
+otherItemCost = center?.extra_cost ?? 0;
 
             //document.getElementById("fut_id").textContent = center.id;
             //alert(`futsal id: ${document.getElementById("fut_id").textContent}`);
@@ -1123,9 +1122,8 @@ const theadRow = document.createElement("tr");
                 
                 const date = new Date(selectedDate); // e.g., '2025-04-19'
                 const day = date.getDay();
-                let firstItemCost = center?.initial_cost ?? 0;
-let otherItemCost = center?.extra_cost ?? 0;
-               
+                
+                
                if (firstItemCost == 0 && otherItemCost == 0) {}
                 if(parseFloat(center.stadium_discount) > 0){
                     discounts = parseFloat(center.stadium_discount).toFixed(2);
@@ -1160,6 +1158,7 @@ let otherItemCost = center?.extra_cost ?? 0;
             }
         });
         let serviceCost = parseFloat(firstItemCost);
+
         
         let totalCost = 0;
         let extraItemcost = (totalHours - 1) * otherItemCost;
