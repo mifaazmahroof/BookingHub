@@ -203,7 +203,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     if (!response.ok) {
       throw new Error(`User created, but email not generated. Server error: ${response.status}`);
-
+location.reload();
     }
 
     const result = await response.text();
@@ -214,7 +214,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     
     responseDiv.innerText = "Database response: ",db_result.message;
     alert("Database response: ",db_result.message);
-    location.reload();
+    window.location.href = '.';
 
     }
 
