@@ -1876,6 +1876,30 @@
   content: "&#9733;";
   font-family: "Font Awesome 6 Free";
 }
+
+.heart-icon {
+  transition: color 0.3s;
+}
+.heart-icon:hover {
+  color: rgb(196, 39, 39);
+}
+.heart-icon:hover::before {
+  content: "\f005";
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+}
+.favor-button:hover .heart-icon {
+  color: rgb(196, 39, 39);
+  font-weight: 900;
+}
+.favor-button:hover .heart-icon::before {
+  content: "&#9733;";
+  font-family: "Font Awesome 6 Free";
+}
+
+
+
+
 input, select {
   width: 100%;
   padding: 8px;

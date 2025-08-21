@@ -4,10 +4,10 @@ $username = "root";
 $password = "";
 $dbname = "gpedfqte_WP3RP";*/
 
-$servername = "yamabiko.proxy.rlwy.net";
+$servername = "nozomi.proxy.rlwy.net";
 $username = "root";
-$port ="13665";
-$password = "elJbKEDUyyGYKVVHqkrcKZNNynrFtGHw";
+$port ="43280";
+$password = "DlBsZOMNOBjdxuKnMTHzNvPDkkkFoRxG";
 $dbname = "railway";
 
 // Create Database Connection
@@ -19,6 +19,7 @@ if ($conn->connect_error) {
     echo json_encode(["status" => "error", "message" => "Connection failed: " . $conn->connect_error]);
     exit();  // stop further execution
 }
+
 // Handle Different API Actions
 $action = $_GET['action'] ?? '';
 switch ($action) {
@@ -314,7 +315,6 @@ function getReviews(){
         $data[] = $row;
     }
 
-    
 
     return  $data;
 }

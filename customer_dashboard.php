@@ -243,7 +243,19 @@ else{
           <path x-show="open" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" />
         </svg>
       </button>
-      <div x-show="open" @click.away="open = false" class="absolute z-10 mt-2 w-full rounded bg-white shadow">
+            <div x-show="open" @click.away="open = false" class="absolute flex flex-col z-10 mt-2 w-full rounded bg-white shadow flex flex-col">
+        <a href="#profile_main"  @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline" onclick="directpage(event, this.getAttribute('href'))">
+          <i class="fa-solid fa-user"></i><span class="hidden sm:block"> My profile</span>
+        </a>
+        <a href="#settings_main" @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline" onclick="directpage(event, this.getAttribute('href'))">
+          <i class="fa-solid fa-gear"></i><span class="hidden sm:block"> Settings</span>
+        </a>
+        <a href="./logout.php" @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline">
+          <i class="fa-solid fa-sign-out-alt"></i><span class="hidden sm:block"> Sign out</span>
+        </a>
+      </div>
+
+<!--       <div x-show="open" @click.away="open = false" class="absolute z-10 mt-2 w-full rounded bg-white shadow">
         <a href="#profile_main"  @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline" onclick="directpage(event, this.getAttribute('href'))">
           <i class="fa-solid fa-user"></i> My profile
         </a>
@@ -253,7 +265,7 @@ else{
         <a href="./logout.php" @click="open = false" class="flex items-center gap-2 px-4 py-2 text-sm hover:bg-teal-100 dark:hover:bg-teal-700 hover:text-white text-gray-700 no-underline">
           <i class="fa-solid fa-sign-out-alt"></i> Sign out
         </a>
-      </div>
+      </div> -->
     </div>
   </div>
                     </div>

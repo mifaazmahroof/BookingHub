@@ -464,9 +464,13 @@ else{
 }
 ?>
                         </div>
-                        <div class="flex justify-between">
-                            <button class="review-button px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all flex items-center" onclick="openPopup(this)" pitch-id-data="<?= htmlspecialchars($row['id']) ?>" type="button">
-                                <i class="far fa-star mr-2 star-icon"></i> Leave a Review
+                       <div class="flex justify-between">
+<button class="review-button px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all flex items-center" onclick="openPopup(this)" pitch-id-data="<?= htmlspecialchars($row['id']) ?>" type="button">
+                                <i class="far fa-star mr-2 star-icon"></i><span class="sm:block hidden"> Review</span>
+                            </button>
+
+<button class="favor-button px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all flex items-center" onclick="markFavor(this)" pitch-id-data="<?= htmlspecialchars($row['id']) ?>" type="button">
+                                <i class="far fa-heart mr-2 heart-icon"></i><span class="sm:block hidden"> Favorite</span>
                             </button>
                             <form id="redirectForm" action="FutsalDetailPage.php" method="POST">
   <input type="hidden" name="value" id="valueInput" value="<?= htmlspecialchars($row['id']) ?>">
@@ -836,18 +840,6 @@ courttypeContainer.innerHTML = "";
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
     cityInput.addEventListener('input', async function () {
       const query = cityInput.value;
       console.log(query);
@@ -916,6 +908,12 @@ districtDropdown.addEventListener('change', async function () {
 
 
     <script>
+
+        function markFavor(button) {
+    
+    const productId = button.getAttribute('pitch-id-data');
+
+}
   function openPopup(button) {
     
     const productId = button.getAttribute('pitch-id-data');
