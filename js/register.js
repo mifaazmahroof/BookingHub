@@ -178,7 +178,7 @@ s_phoneInput.addEventListener("input", function () {
 
 document.getElementById("registerForm").addEventListener("submit", async function (e) {
   e.preventDefault();
-
+    const clientId = '';
   const form = this;
   const responseDiv = document.getElementById("response");
   responseDiv.innerText = "Submitting..."; // Optional: loading indicator
@@ -194,14 +194,16 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const db_result = await dbResponse.json()
     console.log("Convert Res: ",db_result.message);
     if (db_result.status){
+        clientId = db_result.stadiumId;
         responseDiv.innerText = "Generating Email.....";
-    const response = await fetch("register.php", {
+    const response = await fetch("Register.php", {
       method: "POST",
       body: formData,
     });
 
     if (!response.ok) {
-      throw new Error(`Server error: ${response.status}`);
+      throw new Error(`User created, but email not generated. Server error: ${response.status}`);
+
     }
 
     const result = await response.text();
