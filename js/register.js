@@ -194,7 +194,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     const db_result = await dbResponse.json()
     console.log("Convert Res: ",db_result.message);
     if (db_result.status){
-        clientId = db_result.stadiumId;
+         
         responseDiv.innerText = "Generating Email.....";
     const response = await fetch("Register.php", {
       method: "POST",
