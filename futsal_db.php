@@ -97,6 +97,9 @@ switch ($action) {
     case 'saveclient':
         saveclient($_POST, $conn);
         break;
+    case 'deleteClient':
+        deleteClient($_POST, $conn);
+        break;
     case 'update_user':
         update_user($_POST, $conn);
         break;
@@ -1257,12 +1260,10 @@ function saveclient($data, $conn) {
 
     if ($query->execute()) {
         $stadium_id = $conn->insert_id;
-        $_SESSION['user_id'] = $stadium_id;
-        $_SESSION['role'] = 'client';
 
         echo json_encode([
             "message" => "Stadium registered successfully!",
-            "stadiumId" => $_SESSION['user_id'],
+            "stadiumId" => $stadium_id,
             "status" => true
         ]);
     } else {
@@ -1272,6 +1273,56 @@ function saveclient($data, $conn) {
         ]);
     }
 }
+
+
+function deleteClient($id, $conn) {
+    header('Content-Type: application/json');
+
+    // Validate ID
+    if (!is_numeric($id)) {
+        echo json_encode([
+            "message" => "Invalid ID provided.",
+            "status" => false
+        ]);
+        return;
+    }
+
+    // Prepare DELETE query
+    $query = $conn->prepare("DELETE FROM stadium WHERE stadium_id = ?");
+    if (!$query) {
+        echo json_encode([
+            "message" => "Prepare failed: " . $conn->error,
+            "status" => false
+        ]);
+        return;
+    }
+
+    $query->bind_param("i", $id);
+
+    if ($query->execute()) {
+        if ($query->affected_rows > 0) {
+            echo json_encode([
+                "message" => "Client deleted successfully.",
+                "status" => true
+            ]);
+        } else {
+            echo json_encode([
+                "message" => "No client found with this ID.",
+                "status" => false
+            ]);
+        }
+    } else {
+        echo json_encode([
+            "message" => "Error deleting client: " . $query->error,
+            "status" => false
+        ]);
+    }
+
+    $query->close();
+}
+
+
+
 
 
 /*function saveclient($data,$conn){
@@ -1853,13 +1904,36 @@ function update_client($formData,$conn) {
 function getClientName($cus_id){
     global $conn;
     $query = $conn->prepare("
+    SELECT *
+FROM stadium AS s
+WHERE s.stadium_id = ?
+");
+
+if ($query === false) {
+    die('Error preparing query: ' . $conn->error);
+}
+
+$query->bind_param("i", $cus_id);
+$query->execute();
+$result = $query->get_result();
+
+$cus_name = '';
+while ($row = $result->fetch_assoc()) {
+    $cus_name = $row;
+}
+
+return $cus_name;
+}
+function getClientDetails($cus_id){
+    global $conn;
+    $query = $conn->prepare("
     SELECT 
     s.*,
     ROUND(AVG(r.rating), 1) AS average_rating,
     COUNT(r.review_id) AS review_count
 FROM stadium AS s
-JOIN pitch AS p ON p.stadium_id = s.stadium_id
-JOIN reviews AS r ON r.pitch_id = p.pitch_id
+LEFT JOIN pitch AS p ON p.stadium_id = s.stadium_id
+LEFT JOIN reviews AS r ON r.pitch_id = p.pitch_id
 WHERE s.stadium_id = ?
 GROUP BY s.stadium_id, s.name;
 ");
@@ -1872,7 +1946,7 @@ $query->bind_param("i", $cus_id);
 $query->execute();
 $result = $query->get_result();
 
-$cus_name = '';
+$cus_name = [];
 while ($row = $result->fetch_assoc()) {
     $cus_name = $row;
 }

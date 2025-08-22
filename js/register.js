@@ -192,9 +192,9 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     });
 
     const db_result = await dbResponse.json()
-    console.log("Convert Res: ",db_result.message);
+    console.log("Convert Res: ",db_result.message, db_result.stadiumId);
     if (db_result.status){
-         
+         formData.append('clientId',db_result.stadiumId);
         responseDiv.innerText = "Generating Email.....";
     const response = await fetch("Register.php", {
       method: "POST",
@@ -208,7 +208,7 @@ document.getElementById("registerForm").addEventListener("submit", async functio
 
     const result = await response.text();
     responseDiv.innerText = result;
-    window.location.href = './Profile.php';
+    window.location.href = '.';
     }
     else{
     

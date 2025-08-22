@@ -1,7 +1,7 @@
 <?php
 $client_id = $_SESSION['user_id'];
 $data = getClientBooking($client_id);
-$client_details = getClientName($client_id);
+$client_details = getClientDetails($client_id);
 $bookingData = getStaduimBookingdata($client_id);
 $bookingDetails = getBookingDetails($client_id);
 $location_details = getLocationDetails();

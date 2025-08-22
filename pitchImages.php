@@ -26,7 +26,7 @@ if (isset($pitch_id)) {
     $pitch_Id = (int)$_GET['pitch_id'];
 } else {
     echo "Pitch ID is not set or invalid.";
-    exit;
+    
 }
 
 
