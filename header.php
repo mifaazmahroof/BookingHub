@@ -26,7 +26,7 @@ $root = ROOT_URL;
 <html lang="en" x-data="tabHandler()" xmlns="http://www.w3.org/1999/xhtml">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="/Manifest.json">
 <meta name="theme-color" content="#0d6efd">
     <title>Futsal Sri Lanka - Book Your Ground</title>
       

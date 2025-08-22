@@ -469,7 +469,7 @@ else{
                             </div>
                         </div>
                         <div class="flex items-baseline">
-                            <span class="text-2xl md:text-3xl font-bold text-gray-800 mr-2"><?= htmlspecialchars($client_details['average_rating']) ?></span>
+                            <span class="text-2xl md:text-3xl font-bold text-gray-800 mr-2"><?= htmlspecialchars($client_details['average_rating'] ?? '', ENT_QUOTES, 'UTF-8') ?></span>
                             <!-- <span class="text-green-500 text-sm flex items-center">
                                 <i class="fas fa-arrow-up mr-1"></i> 0.2
                             </span> -->

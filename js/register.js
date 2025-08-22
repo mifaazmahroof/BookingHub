@@ -178,7 +178,7 @@ s_phoneInput.addEventListener("input", function () {
 
 document.getElementById("registerForm").addEventListener("submit", async function (e) {
   e.preventDefault();
-    const clientId = '';
+    
   const form = this;
   const responseDiv = document.getElementById("response");
   responseDiv.innerText = "Submitting..."; // Optional: loading indicator
@@ -202,7 +202,15 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     });
 
     if (!response.ok) {
-      throw new Error(`User created, but email not generated. Server error: ${response.status}`);
+      throw new Error(`Server error: ${response.status}`);
+      
+    
+     const dbDelResponse = await fetch(`/futsal_db.php?action=deleteClient&id=${db_result.stadiumId}`, {
+  method: "POST",
+});
+
+const result = await dbDelResponse.json();
+console.log(result.message);
         location.reload();
     }
 
@@ -210,11 +218,12 @@ document.getElementById("registerForm").addEventListener("submit", async functio
     responseDiv.innerText = result;
     window.location.href = '.';
     }
-    else{
-    
+    else{    
     responseDiv.innerText = "Database response: ",db_result.message;
     alert("Database response: ",db_result.message);
+    
     location.reload();
+
 
     }
 
