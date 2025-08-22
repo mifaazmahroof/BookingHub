@@ -69,6 +69,39 @@ document.getElementById("review_submit").addEventListener('click',function(){
 });
 }
 
+if (document.getElementById("favor_submit")){
+document.getElementById("favor_submit").addEventListener('click',function(){
+    const pitch_id = document.getElementById("favorite_pitch_id").value;
+    const logged_user = document.getElementById("logged_user").value;
+    let body='';
+    if (logged_user){
+        body = `user_id=${document.getElementById("logged_user").value}`;
+    }
+
+    fetch("/futsal_db.php?action=updatefavorite", {
+                                method: "POST",
+                                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                                body: body
+                            })
+                            .then(response => response.json())
+                            .then(result => {
+                                customer_id = result.review_id;
+                                if (result.status){
+                                    //customer_id =  `${customer_id}`;
+
+                                
+                                document.getElementById("popup").style.display="none";
+                                
+                                }
+                                alert(`Update view: ${result.message}`);
+
+                            });
+    
+});
+}
+
+
+
 
 getLocation()
     function fetchCourts() {

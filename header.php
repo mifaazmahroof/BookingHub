@@ -55,13 +55,13 @@ if ('serviceWorker' in navigator) {
                 </div>
             </div>
             <nav class="hidden md:flex space-x-8">
-                <a href="<?= htmlspecialchars($root) ?>"  class="no-underline text-teal-700 hover:text-teal-900 flex items-center">
+                <a href="."  class="no-underline text-teal-700 hover:text-teal-900 flex items-center">
                     <i class="fas fa-home mr-2"></i> Home
                 </a>
                 <a href="#" class="text-gray-600 hover:text-teal-600 font-medium flex items-center">
                     <i class="fas fa-map-marked-alt mr-2"></i> Find Grounds
                 </a>
-                <a href="#" class="text-gray-600 hover:text-teal-600 font-medium flex items-center">
+                <a href="favorites.php" class="text-gray-600 hover:text-teal-600 font-medium flex items-center">
                     <i class="fas fa-heart mr-2"></i> Favorites
                 </a>
                 <?php if($full_name): ?>

@@ -321,6 +321,54 @@ function getReviews(){
 
     return  $data;
 }
+
+
+function getFavoritePitch($id){
+global $conn;
+
+    $stmt = $conn->prepare("SELECT * FROM favorite WHERE cus_id = ?");
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $id); // use "i" for integer IDs
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $favorite = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $favorite[] = $row;
+    }
+
+    $stmt->close();
+
+    return $favorite; // return the data instead of echo
+
+}
+function getfavor($id) {
+    global $conn;
+
+    $stmt = $conn->prepare("SELECT * FROM favorite WHERE cus_id = ?");
+    if (!$stmt) {
+        die("Prepare failed: " . $conn->error);
+    }
+
+    $stmt->bind_param("i", $id); // use "i" for integer IDs
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+    $favorite = [];
+
+    while ($row = $result->fetch_assoc()) {
+        $favorite[] = $row;
+    }
+
+    $stmt->close();
+
+    return $favorite; // return the data instead of echo
+}
+
 function getAllCourtDetails() {
     global $conn;
     /*$sql = "SELECT 
@@ -1219,6 +1267,37 @@ function updatereview($data, $conn) {
     } else {
         echo json_encode([
             "message" => "Error submitting review.",
+            "status"  => false
+        ]);
+    }
+}
+
+function updatefavorite($data, $conn) {
+    $user_id  = $data['user_id'] ?? '';
+    $pitch_id = $data['pitch_id'] ?? '';
+
+    // Proper debug log (for development only, avoid in production)
+
+    date_default_timezone_set('Asia/Colombo');
+    $currentDateTime = date('Y-m-d H:i:s');
+
+    // Prepare and bind
+    $query = $conn->prepare("
+        INSERT INTO favorite (pitch_id, user_id)
+        VALUES (?, ?)
+    ");
+    $query->bind_param("ii", $pitch_id, $user_id);
+
+    if ($query->execute()) {
+        $favorite_id = $conn->insert_id;
+        echo json_encode([
+            "message"   => "Thanks for liking me",
+            "review_id" => $favorite_id,
+            "status"    => true
+        ]);
+    } else {
+        echo json_encode([
+            "message" => "Error liking this pitch.",
             "status"  => false
         ]);
     }

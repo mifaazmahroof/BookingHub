@@ -3,6 +3,7 @@
 include 'header.php';  //header
 $getalldetails = getAllCourtDetails();
 $getReviews = getReviews();
+$getfavorite = getfavor($user_id);
 
 $role = $_SESSION['role'] ?? null;
 ?>
@@ -469,9 +470,14 @@ else{
                                 <i class="far fa-star mr-2 star-icon"></i><span class="sm:block hidden"> Review</span>
                             </button>
 
+<?php
+                            if($user_id){?>
 <button class="favor-button px-3 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-all flex items-center" onclick="markFavor(this)" pitch-id-data="<?= htmlspecialchars($row['id']) ?>" type="button">
                                 <i class="far fa-heart mr-2 heart-icon"></i><span class="sm:block hidden"> Favorite</span>
                             </button>
+                            <?php
+}?>
+
                             <form id="redirectForm" action="FutsalDetailPage.php" method="POST">
   <input type="hidden" name="value" id="valueInput" value="<?= htmlspecialchars($row['id']) ?>">
   <button class="px-4 py-2 btn-primary text-white rounded-lg hover:shadow-lg transition-all" onclick="submitForm(<?= htmlspecialchars($row['id']) ?>)" type="button">
@@ -515,6 +521,18 @@ else{
 
   </div>
 </div>
+
+<div class="popup-overlay" id="favorpopup" style="display: none;">
+  <div class="popup-content">
+    <span class="close-btn" onclick="closePopupfavor()">×</span>
+    <h3>Do you like this</h3>
+      <input type="hidden" name="pitch_id" id="favorite_pitch_id">
+      <input type="hidden" name="user-id" id="logged_user" value="<?= htmlspecialchars($user_id)?>">
+      <button type="submit" id="favor_submit">Yes</button>
+
+  </div>
+</div>
+
     </section>
      <?php else: ?>
 <?php endif; ?>
@@ -912,6 +930,9 @@ districtDropdown.addEventListener('change', async function () {
         function markFavor(button) {
     
     const productId = button.getAttribute('pitch-id-data');
+    document.getElementById('favorite_pitch_id').value = productId;
+    document.getElementById('favorpopup').style.display = 'flex';
+
 
 }
   function openPopup(button) {
@@ -925,6 +946,9 @@ districtDropdown.addEventListener('change', async function () {
 
   function closePopup() {
     document.getElementById('popup').style.display = 'none';
+  }
+    function closePopupfavor() {
+    document.getElementById('favorpopup').style.display = 'none';
   }
 
   const stars = document.querySelectorAll('#starContainer i');
