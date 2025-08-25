@@ -35,7 +35,6 @@ $(document).ready(function () {
 
 const goTopBtn = document.getElementById("goTopBtn");
   window.addEventListener("scroll", () => {
-    console.log('Scroll Started');
     if (window.scrollY > 100) {
       goTopBtn.classList.remove("hidden");
     } else {
