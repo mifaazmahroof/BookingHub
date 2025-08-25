@@ -33,6 +33,22 @@ $(document).ready(function () {
     let startDate = new Date();
 
 
+const goTopBtn = document.getElementById("goTopBtn");
+  window.addEventListener("scroll", () => {
+    console.log('Scroll Started');
+    if (window.scrollY > 100) {
+      goTopBtn.classList.remove("hidden");
+    } else {
+      goTopBtn.classList.add("hidden");
+    }
+  });
+
+  // Scroll to top
+  goTopBtn.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+
+
 if (document.getElementById("review_submit")){
 document.getElementById("review_submit").addEventListener('click',function(){
     const pitch_id = document.getElementById("review_pitch_id").value;

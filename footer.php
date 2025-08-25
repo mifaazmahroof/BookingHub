@@ -1,6 +1,7 @@
     <!-- Footer -->
-  <!-- Footer -->
+
     <footer class="bg-gray-900 text-white pt-16 pb-8">
+         
         <div class="container mx-auto px-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
                 <div>
@@ -66,24 +67,7 @@
             </div>
         </div>
     </footer>
-<script>
-  let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-
-  // Show custom install button
-  document.getElementById('installBtn').style.display = 'block';
-
-  document.getElementById('installBtn').addEventListener('click', () => {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      deferredPrompt = null;
-    });
-  });
-});
-
-</script>
+    
 <script>
                     
 
@@ -148,6 +132,7 @@ function getLocation() {
     .catch(error => console.error('Error:', error));
 }
                 </script>
+
 				</body>
                 
                 </html>
