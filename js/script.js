@@ -758,7 +758,8 @@ document.getElementById('bankDetails').appendChild(nameSpan);
 
    
     function getCourtDetails(location,court_type) {
-
+        const loader = document.getElementById("loader");
+        loader.classList.remove("hidden");
         fetch(`/futsal_db.php?action=getCourtDetails&location=${location}&court=${court_type}`)
         .then(response => response.json())
         .then(courtDetails => {
@@ -1062,7 +1063,7 @@ const theadRow = document.createElement("tr");
                             
                             // Initially hidden
                             submitDiv.appendChild(submitButton);
-                           
+                                loader.classList.add("hidden");
                                 document.querySelector(".scrollable-div").style.display = "block"; 
                                 document.getElementById("cost_lst").style.display = "block";
                            

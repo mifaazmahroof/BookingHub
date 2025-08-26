@@ -151,7 +151,9 @@ $role = $_SESSION['role'] ?? null;
                         <div class="submit-form">
                     </div>
                     </div>
-                    
+                    <div id="loader" class="hidden absolute inset-0 flex items-center justify-center bg-gray-100 bg-opacity-80">
+      <img src="https://i.gifer.com/XVo6.gif" alt="Loading..." class="w-1 h-1">
+    </div>
                     <div id="futsalsList" class="scrollable-div" style="display: none;">
                         
 
