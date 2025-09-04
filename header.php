@@ -84,17 +84,51 @@ if ('serviceWorker' in navigator) {
   // Go to Top button visibility
   
 </script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4937847285962180"
+     crossorigin="anonymous"></script>
+     <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 </head>
 <!-- Scroll to Top Button -->
 
     <!-- Header -->
      <header class="bg-white shadow-sm sticky top-0 z-50">
         <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+
+
             <div class="flex items-center">
-                <div class="text-2xl font-bold text-teal-600 flex items-center">
-                    <a href="<?= htmlspecialchars($root) ?>"  class="no- text-teal-700 hover:text-teal-900 flex items-center"><i class="fas fa-futbol mr-2"></i>
-                    <span>FutsalSL</span><sup class="text-gray-500 hover:text-gray-900 text-sm" id="name_ctr" style="text-transform: uppercase;"></sup></a>
-                </div>
+
+
+            <div class="text-2xl font-bold text-teal-600 flex items-center">
+  <a href="<?= htmlspecialchars($root) ?>" class="text-teal-700 hover:text-teal-900 flex items-center">
+
+    <!-- Desktop Logo -->
+    <img src="logo.jpg" class="hidden md:flex h-12" alt="Desktop Logo">
+
+    <!-- Mobile Logo -->
+    <img src="logo-mobile.jpg" class="block md:hidden h-10" alt="Mobile Logo">
+
+    <sup class="text-gray-500 hover:text-gray-900 text-sm" id="name_ctr" style="text-transform: uppercase;"></sup>
+  </a>
+</div>
+
+               <!--  <div class="text-2xl font-bold text-teal-600 flex items-center">
+                    <a href="<?= htmlspecialchars($root) ?>"  class="text-teal-700 hover:text-teal-900 flex items-center">
+<!-/- Desktop Logo -/->
+<img src="logo.jpg" class="hidden md:inline-block h-12">
+
+<!-/- Mobile Logo -/->
+<img src="logo-mobile.jpg" class="inline-block md:hidden h-10">
+
+                    
+                    <!-/- <!-/- Desktop Logo -/->
+    <img src="logo.jpg" class="hidden sm:block h-12">
+
+    <!-/- Mobile Logo -/->
+                      <img src="logo-mobile.jpg" class="h-10 block md:hidden"> -/-><!-/- <i class="fas fa-futbol mr-2"></i>
+                    <span>FutsalSL</span> -/-><sup class="text-gray-500 hover:text-gray-900 text-sm" id="name_ctr" style="text-transform: uppercase;"></sup></a>
+                </div> -->
             </div>
             <nav class="hidden md:flex space-x-8">
                 <a href="."  class="no-underline text-teal-700 hover:text-teal-900 flex items-center">
@@ -130,7 +164,7 @@ if ('serviceWorker' in navigator) {
                 <?php endif; ?>
                 <button
   type="button"
-  class="hidden bottom-6 right-6 z-50 btn-primary text-white p-2 rounded-full shadow-lg hover:bg-blue-600 hover:shadow-lg transition text-xl"
+  class="hidden fixed bottom-6 right-6 z-50 btn-primary text-white p-2 rounded-full shadow-lg hover:bg-blue-600 hover:shadow-lg transition text-xl"
   id="goTopBtn">&nbsp;&nbsp;↑&nbsp;&nbsp;
   <!-- <span class="[&>svg]:w-4">
     <svg
@@ -153,6 +187,7 @@ if ('serviceWorker' in navigator) {
         
         
     </header>
+
 
 <!-- <div id="popup" class="hidden fixed inset-0 bg-black bg-opacity-60 flex items-center justify-center z-50">
   <div class="relative bg-white rounded-xl shadow-lg p-6 w-80 text-center">

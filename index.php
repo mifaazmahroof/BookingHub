@@ -10,8 +10,8 @@ $role = $_SESSION['role'] ?? null;
 <section class="hero-pattern text-black py-20">
         <div class="container mx-auto px-4">
             <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl font-bold mb-6 leading-tight">Find and Book the Perfect Futsal Ground</h1>
-                <p class="text-xl mb-10 opacity-90">Discover the best futsal venues across Sri Lanka and book with just a few clicks</p>
+                <h1 class="text-5xl font-bold mb-6 leading-tight">Find and Book the Perfect Sport Facility</h1>
+                <p class="text-xl mb-10 opacity-90">Discover the best any type of Sports Facility venues across Sri Lanka and book with just a few clicks</p>
                 
                 <!-- Search Bar -->
                 <div class="bg-white p-6 rounded-xl shadow-2xl">
@@ -540,44 +540,9 @@ else{
 <?php endif; ?>
 
 
-    <!-- How It Works -->
-    <!-- <section class="py-16 bg-gray-50">
-        <div class="container mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-bold text-gray-800 mb-3">How It Works</h2>
-                <div class="w-20 h-1 bg-teal-600 mx-auto"></div>
-                <p class="text-gray-600 mt-4 max-w-2xl mx-auto">Book your futsal ground in just 3 simple steps</p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="text-center p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-teal-600 text-2xl font-bold">1</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Search Grounds</h3>
-                    <p class="text-gray-600">Find the perfect futsal ground by location, date, time and facilities.</p>
-                </div>
-                
-                <div class="text-center p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-teal-600 text-2xl font-bold">2</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Select & Book</h3>
-                    <p class="text-gray-600">Choose your preferred time slot and confirm your booking instantly.</p>
-                </div>
-                
-                <div class="text-center p-6 bg-white rounded-xl shadow-sm hover:shadow-md transition-all">
-                    <div class="bg-teal-100 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6">
-                        <span class="text-teal-600 text-2xl font-bold">3</span>
-                    </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-3">Play & Enjoy</h3>
-                    <p class="text-gray-600">Arrive at the ground and enjoy your game with friends!</p>
-                </div>
-            </div>
-        </div>
-    </section> -->
 
     <!-- Recent Reviews -->
+      <?php if (!empty($getReviews) && is_array($getReviews)): ?>
     <section class="py-16 bg-white">
         <div class="container mx-auto px-4">
             <div class="text-center mb-12">
@@ -661,7 +626,14 @@ else{
             </div> -->
         </div>
     </section>
-
+    <?php endif; ?>
+<section class="py-16 bg-white">
+  <ins class="adsbygoogle"
+       style="display:block"
+       data-ad-client="ca-pub-4937847285962180"
+       data-ad-slot="1234567890"
+       data-ad-format="auto"
+       data-full-width-responsive="true"></ins></section>
     <!-- Why Choose Us -->
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
