@@ -628,12 +628,27 @@ else{
     </section>
     <?php endif; ?>
 <section class="py-16 bg-white">
+   <div class="container mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-800 mb-3">Advitise</h2>
+                <div class="w-20 h-1 bg-teal-600 mx-auto"></div>
+                </div>
+              <div class="overflow-x-auto no-scrollbar place-items-center">
+            <div class="flex gap-8 min-w-max">
+               
+        
+<div class="bg-white rounded-xl shadow-md overflow-hidden border border-gray-100 ground-card transition-all duration-300">
   <ins class="adsbygoogle"
-       style="display:block"
-       data-ad-client="ca-pub-4937847285962180"
-       data-ad-slot="1234567890"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins></section>
+     style="display:block"
+     data-ad-client="ca-pub-4937847285962180"
+     data-ad-slot="7791003600"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+
+
+</div></div></div></div>
+
+    </section>
     <!-- Why Choose Us -->
     <section class="py-16 bg-gray-50">
         <div class="container mx-auto px-4">
