@@ -164,7 +164,7 @@ if ('serviceWorker' in navigator) {
                 <?php endif; ?>
                 <button
   type="button"
-  class="hidden fixed bottom-6 right-6 z-50 btn-primary text-white p-2 rounded-full shadow-lg hover:bg-blue-600 hover:shadow-lg transition text-xl"
+  class="hidden bottom-6 right-6 z-50 btn-primary text-white p-2 rounded-full shadow-lg hover:bg-blue-600 hover:shadow-lg transition text-xl"
   id="goTopBtn">&nbsp;&nbsp;↑&nbsp;&nbsp;
   <!-- <span class="[&>svg]:w-4">
     <svg
